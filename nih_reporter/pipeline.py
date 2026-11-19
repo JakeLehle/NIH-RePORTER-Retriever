@@ -19,7 +19,7 @@ def write_json(obj: Any, path: str | Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
     with tmp.open("w", encoding="utf-8") as fh:
-        json.dump(obj, fh, indent=1, ensure_ascii=False)
+        json.dump(obj, fh, indent=2, ensure_ascii=False)
     tmp.replace(path)
 
 

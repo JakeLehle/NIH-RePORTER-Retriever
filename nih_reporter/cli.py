@@ -17,6 +17,7 @@ import click
 import yaml
 
 from .database import build_database
+from .landscape import build_grant_file, check_grant_files
 from .pipeline import fetch_query, flatten_query, write_spec
 from .queries import QuerySpec, build_queries, global_criteria, slugify
 from .reports import write_reports
@@ -102,10 +103,14 @@ def search(po_names, opps, texts, all_years, out_dir):
         write_spec(spec, spec_path)
         fetch_query(spec_path, raw_path)
         flatten_query(raw_path, out / "tables" / f"{spec.query_id}.tsv")
+        build_grant_file(raw_path, out / "grants" / f"{spec.query_id}.json")
         raws.append(raw_path)
+    grant_files = [out / "grants" / f"{s.query_id}.json" for s in specs]
+    manifest = check_grant_files(grant_files, raws, out / "grants" / "manifest.json")
     build_database(raws, out / "database")
     write_reports(out / "database", out / "reports")
-    click.echo(f"Done. See {out / 'reports'} and {out / 'database'}")
+    click.echo(f"Done: {manifest['n_grants_total']} grants in {len(grant_files)} file(s) under "
+               f"{out / 'grants'}. Database: {out / 'database'}, reports: {out / 'reports'}")
 
 
 @main.command("list-queries", help="Show the queries a config resolves to, without calling the API.")

@@ -139,3 +139,45 @@ def test_empty_query(tmp_path):
     # an empty query mixed with real ones must not break anything either
     build_database(RAWS + [empty], tmp_path / "db2")
     write_reports(tmp_path / "db2", tmp_path / "reports2")
+
+
+def test_grant_file_and_check(tmp_path):
+    from nih_reporter.landscape import build_grant_file, check_grant_files
+
+    out = tmp_path / "grants"
+    doc = build_grant_file(DATA / "raw_po.json", out / "po.json")
+    raw = json.loads((DATA / "raw_po.json").read_text())
+    assert doc["search"]["api_records"] == len(raw["results"])
+    assert doc["overview"]["n_grants"] == len(doc["grants"]) == 3
+    g = {x["core_project_num"]: x for x in doc["grants"]}["UM1HG012010"]
+    assert len(g["records"]) == 2
+    assert g["funding"]["latest_fiscal_year"] == 2026
+    assert g["funding"]["award_amount_latest_fy"] == 1701223
+    assert g["funding"]["award_amount_by_fiscal_year"] == {"2025": 1890246, "2026": 1701223}
+    assert g["abstract"] and g["terms"] and g["program_officers"] == ["Michael J Pazin"]
+    # file is pretty-printed (human readable), not one long line
+    assert len((out / "po.json").read_text().splitlines()) > 100
+
+    build_grant_file(DATA / "raw_opportunity.json", out / "opp.json")
+    manifest = check_grant_files([out / "po.json", out / "opp.json"],
+                                 [DATA / "raw_po.json", DATA / "raw_opportunity.json"],
+                                 out / "manifest.json")
+    assert manifest["status"] == "ok" and manifest["n_files"] == 2
+    assert (out / "manifest.json").exists()
+
+
+def test_check_grant_files_fails(tmp_path):
+    from nih_reporter.landscape import build_grant_file, check_grant_files
+
+    good = tmp_path / "po.json"
+    build_grant_file(DATA / "raw_po.json", good)
+    broken = json.loads(good.read_text())
+    broken["grants"].pop()  # now n_grants and record counts disagree
+    bad = tmp_path / "bad.json"
+    bad.write_text(json.dumps(broken))
+    manifest = tmp_path / "manifest.json"
+    with pytest.raises(ValueError, match="n_grants"):
+        check_grant_files([good, bad], None, manifest)
+    with pytest.raises(ValueError, match="missing or empty"):
+        check_grant_files([tmp_path / "nope.json"], None, manifest)
+    assert not manifest.exists()

@@ -1,13 +1,17 @@
 """NIH RePORTER Retriever - Snakemake workflow.
 
-Stage 1 (this file): input tables -> RePORTER queries -> raw JSON -> portfolio
-database + readable reports.
+Phase 1 (this file) is retrieval only - no summarisation or AI:
+    input tables -> RePORTER queries -> raw JSON
+      -> grants/{query}.json        one human-readable grant file per search term
+      -> grants/manifest.json       written only if every grant file passes checks
+    plus a portfolio database (TSV / SQLite) and Markdown reports.
 
 Run from the repository root:
     snakemake -s workflow/Snakefile --configfile config/config.yaml --cores 1
 
-Stage 2 (summarisation / gap analysis / specific aims) will be added as new
-rules in workflow/rules/ that consume  {output_dir}/database/portfolio.jsonl.
+Phase 2 (landscape summary + gap analysis) will be added as rules that take
+{output_dir}/grants/manifest.json as their input, so they only run once every
+grant file exists and has been checked.
 """
 
 import json
@@ -19,7 +23,7 @@ REPO_ROOT = Path(workflow.basedir).parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from nih_reporter.queries import build_queries
-from nih_reporter import pipeline, database, reports
+from nih_reporter import pipeline, database, reports, landscape
 
 _pkg_log = logging.getLogger("nih_reporter")
 _pkg_log.setLevel(logging.INFO)
@@ -58,8 +62,12 @@ wildcard_constraints:
     qid="[A-Za-z0-9_\\-]+",
 
 
+GRANT_MANIFEST = OUT / "grants" / "manifest.json"
+
+
 rule all:
     input:
+        GRANT_MANIFEST,
         OUT / "database" / "portfolio.tsv",
         OUT / "database" / "portfolio.jsonl",
         OUT / "database" / "nih_reporter.sqlite",
@@ -137,3 +145,38 @@ rule reports:
         expand(OUT / "reports" / "portfolios" / "{qid}.md", qid=QIDS),
     run:
         reports.write_reports(OUT / "database", OUT / "reports")
+
+
+# Phase 1 hand-off: one readable JSON file per search term holding every grant
+# that search found, with all retrieved fields (no summarisation).
+rule grant_file:
+    input:
+        OUT / "raw" / "{qid}.json",
+    output:
+        OUT / "grants" / "{qid}.json",
+    run:
+        landscape.build_grant_file(input[0], output[0])
+
+
+# Checks every grant file exists, parses, is internally consistent and matches
+# the raw API pull. Writes the manifest only if all pass; otherwise the job
+# fails with the list of problems. Phase 2 rules take the manifest as input.
+rule check_grant_files:
+    input:
+        grants=expand(OUT / "grants" / "{qid}.json", qid=QIDS),
+        raw=expand(OUT / "raw" / "{qid}.json", qid=QIDS),
+    output:
+        GRANT_MANIFEST,
+    log:
+        OUT / "logs" / "check_grant_files.log",
+    run:
+        h = log_to(log[0])
+        try:
+            m = landscape.check_grant_files(input.grants, input.raw, output[0])
+            for f in m["files"]:
+                for w in f["warnings"]:
+                    logging.getLogger("nih_reporter.check").warning(w)
+            logging.getLogger("nih_reporter.check").info(
+                "%d grant files OK (%d grants)", m["n_files"], m["n_grants_total"])
+        finally:
+            release(h)

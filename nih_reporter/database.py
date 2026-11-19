@@ -7,7 +7,7 @@ Outputs (all under ``<output_dir>/database``):
   query_hits.tsv     which query matched which grant (many-to-many)
   portfolio.jsonl    one JSON object per grant with the text fields (title,
                      abstract, public health relevance, terms) - the input for
-                     the summarisation / gap-analysis stage
+                     downstream analysis
   nih_reporter.sqlite  all of the above plus long PI / PO tables
 """
 

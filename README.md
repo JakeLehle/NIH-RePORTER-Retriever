@@ -5,15 +5,13 @@ and builds a database of the grants currently funded under specific **program
 officers**, **funding opportunities** (RFA/PAR/PA numbers), or **consortia / free-text
 searches**.
 
-The goal is to answer *"who funds what I want to do?"* and then, in later stages,
+The goal is to answer *"who funds what I want to do?"* and then, in later phases,
 summarise those portfolios to find gaps and draft Specific Aims pages that address them.
 
-| Stage | Status | What it does |
+| Phase | Status | What it does |
 |---|---|---|
-| 1. Retrieve | ✅ this repo | Input tables → RePORTER queries → portfolio database + readable reports |
-| 2. Summarise | planned | Per-grant structured summaries, topic clustering per PO / consortium |
-| 3. Gap analysis | planned | Compare portfolio coverage against the FOA / IC strategic-plan priorities |
-| 4. Aims drafting | planned | Draft Specific Aims pages aimed at the gaps, routed to the matching PO |
+| 1. Retrieve | ✅ this repo | Input tables → RePORTER queries → one human-readable JSON grant file per search term, checked and listed in a manifest. Pure retrieval, no summarisation or AI. |
+| 2. Landscape & gaps | planned | Takes the checked grant files and summarises the funded work: questions being addressed, approaches, and where novel work could fit. |
 
 ## Install
 
@@ -83,6 +81,9 @@ Applied to every query: `active_only` (default `true`), `fiscal_years`, `agencie
 
 ```
 results/
+├── grants/
+│   ├── {query}.json              ONE FILE PER SEARCH TERM: every grant it found, all fields (see below)
+│   └── manifest.json             written only if every grant file passes its checks → Phase 2 input
 ├── queries/{query}.json          resolved search criteria per query
 ├── raw/{query}.json              untouched API records + retrieval timestamp
 ├── tables/{query}.tsv            flat table, one row per RePORTER record
@@ -90,12 +91,47 @@ results/
 │   ├── records.tsv               every record (one per appl_id: each FY, supplement, subproject)
 │   ├── portfolio.tsv             ONE ROW PER GRANT (core project number), collapsed
 │   ├── query_hits.tsv            which query found which grant
-│   ├── portfolio.jsonl           one JSON object per grant with title/abstract/PHR/terms → Stage 2 input
+│   ├── portfolio.jsonl           one JSON object per grant across ALL searches (flat, de-duplicated)
 │   └── nih_reporter.sqlite       all tables above + long PI and PO tables
 └── reports/
     ├── program_officer_summary.tsv   one row per PO seen on ANY retrieved grant
     └── portfolios/{query}.md         readable portfolio: overview, grant table, all abstracts
 ```
+
+### Grant files (`grants/{query}.json`)
+
+The main Phase 1 output: a pretty-printed JSON file per search term, built straight
+from the API records.
+
+```jsonc
+{
+  "schema_version": 1,
+  "search":   { "query_type": "opportunity", "searched_for": "RFA-HG-20-043",
+                "group": "IGVF", "criteria": {...}, "retrieved_at": "...", "api_records": 8 },
+  "overview": { "n_grants": 8, "total_award_latest_fy": 14698628,
+                "activity_codes": {"UM1": 8}, "program_officers": {...},
+                "funding_opportunities": {...}, "organizations": {...},
+                "project_end_years": {"2027": 8}, "spending_categories": {...} },
+  "grants": [
+    { "core_project_num": "UM1HG011966", "title": "...", "activity_code": "UM1",
+      "institute": {...}, "opportunity_numbers": [...], "program_officers": [...],
+      "principal_investigators": [{"name": "...", "is_contact_pi": true}, ...],
+      "organization": {...}, "dates": {"project_start": "...", "project_end": "..."},
+      "funding": {"latest_fiscal_year": 2025, "award_amount_latest_fy": ...,
+                  "award_amount_by_fiscal_year": {...}},
+      "spending_categories": [...], "terms": [...],
+      "abstract": "...", "public_health_relevance": "...", "reporter_url": "...",
+      "records": [ every RePORTER record (fiscal year / supplement / subproject) for this grant ] }
+  ]
+}
+```
+
+The `check_grant_files` rule then checks every grant file: it exists and parses,
+it has the required fields, its grant count matches its overview, and its record
+count matches the raw API pull. Grants with no abstract are logged as
+warnings. If everything passes it writes `grants/manifest.json` (files, grant counts,
+checksums, warnings); if anything fails the job stops and lists the problems. Phase 2
+rules take the manifest as their input, so they only ever run on complete, checked data.
 
 `program_officer_summary.tsv` includes every PO that appears on a retrieved grant,
 not just the ones you searched for — so searching an RFA or consortium also tells
@@ -141,17 +177,14 @@ nih_reporter/           python package used by the rules and the CLI
 tests/                  offline tests (pytest) with trimmed real API fixtures
 ```
 
-## Roadmap for stages 2–4 (draft)
+## Roadmap: Phase 2 (draft)
 
-New rules will go in `workflow/rules/*.smk`, all starting from `database/portfolio.jsonl`:
+New rules take `grants/manifest.json` as input and work from the grant files it lists:
 
-1. **`summarize_grants`** – LLM pass per grant → structured JSON (biological question,
-   model system, data modality / technology, disease area, aims, deliverables).
-   Cached per `core_project_num`, so only new grants cost anything on refresh.
-2. **`cluster_portfolio`** – embed summaries, cluster per PO / group, label clusters →
-   a "map" of each portfolio with counts and $ per theme.
-3. **`gap_analysis`** – compare the map against reference text (the FOA's stated
-   research objectives, the IC strategic plan, your own research interests) to flag
-   objectives with few or no funded grants, plus grants ending soon with no follow-on.
-4. **`draft_aims`** – for chosen gaps, draft a one-page Specific Aims outline citing
-   the closest funded grants (for differentiation) and naming the PO to contact.
+1. **Landscape summary** – per search term (or `group`), summarise the funded work:
+   the questions being addressed, approaches / model systems / technologies, and
+   how the portfolio is distributed across them.
+2. **Gap analysis** – identify where the landscape is thin: questions or approaches
+   with little or no funded work, and grants ending soon with no follow-on. For
+   each gap: what has been done nearby, and what novel work there would add.
+3. Later: draft Specific Aims pages aimed at chosen gaps, naming the PO to contact.
