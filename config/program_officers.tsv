@@ -1,0 +1,4 @@
+# Program officers whose active portfolios to retrieve.
+# Columns: first_name, last_name (required); label, group (optional)
+first_name	last_name	label	group
+Michael	Pazin		NHGRI functional genomics

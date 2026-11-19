@@ -1,0 +1,33 @@
+# NIH RePORTER Retriever - example configuration
+#
+# Run:  snakemake -s workflow/Snakefile --configfile config/config.yaml --cores 1
+#   or: nih-reporter run config/config.yaml
+
+# Where everything is written.
+output_dir: results
+
+# Input tables (TSV or CSV). Comment out / delete any you don't need, but keep
+# at least one. Paths are relative to the directory you run snakemake from.
+inputs:
+  program_officers: config/program_officers.tsv   # first_name, last_name [, label, group]
+  opportunities: config/opportunities.tsv         # opportunity_number [, label, group]
+  text_searches: config/text_searches.tsv         # search_text [, search_field, operator, label, group]
+
+# Filters applied to EVERY query.
+filters:
+  # true  -> only currently active projects (the portfolio "right now").
+  # false -> all projects; combine with fiscal_years to look at history.
+  active_only: true
+  fiscal_years: []          # e.g. [2024, 2025, 2026]
+  agencies: []              # administering IC abbreviations, e.g. [NHGRI, NCI]
+  activity_codes: []        # e.g. [R01, R21, U01, R35]
+  exclude_subprojects: false
+  # Anything else from the RePORTER criteria spec is passed through verbatim:
+  # https://api.reporter.nih.gov/  (e.g. {award_amount_range: {min_amount: 100000}})
+  extra_criteria: {}
+
+api:
+  min_seconds_between_requests: 1.0   # NIH asks for <= 1 request per second
+  page_size: 500                      # API maximum
+  max_retries: 5
+  timeout_seconds: 120

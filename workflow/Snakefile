@@ -1,0 +1,139 @@
+"""NIH RePORTER Retriever - Snakemake workflow.
+
+Stage 1 (this file): input tables -> RePORTER queries -> raw JSON -> portfolio
+database + readable reports.
+
+Run from the repository root:
+    snakemake -s workflow/Snakefile --configfile config/config.yaml --cores 1
+
+Stage 2 (summarisation / gap analysis / specific aims) will be added as new
+rules in workflow/rules/ that consume  {output_dir}/database/portfolio.jsonl.
+"""
+
+import json
+import logging
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(workflow.basedir).parent
+sys.path.insert(0, str(REPO_ROOT))
+
+from nih_reporter.queries import build_queries
+from nih_reporter import pipeline, database, reports
+
+_pkg_log = logging.getLogger("nih_reporter")
+_pkg_log.setLevel(logging.INFO)
+if not _pkg_log.handlers:
+    _console = logging.StreamHandler()
+    _console.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
+    _pkg_log.addHandler(_console)
+    _pkg_log.propagate = False
+
+if not config:
+    raise ValueError("No config given. Run with --configfile config/config.yaml")
+
+OUT = Path(config.get("output_dir", "results"))
+API_CFG = config.get("api", {})
+
+# Input table paths in the config are resolved relative to the working directory.
+QUERIES = {q.query_id: q for q in build_queries(config["inputs"], config.get("filters"), base_dir=".")}
+QIDS = sorted(QUERIES)
+
+
+def log_to(path):
+    """Send this job's log records to its Snakemake log file as well as stderr."""
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    handler = logging.FileHandler(path, mode="w")
+    handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
+    logging.getLogger("nih_reporter").addHandler(handler)
+    return handler
+
+
+def release(handler):
+    logging.getLogger("nih_reporter").removeHandler(handler)
+    handler.close()
+
+
+wildcard_constraints:
+    qid="[A-Za-z0-9_\\-]+",
+
+
+rule all:
+    input:
+        OUT / "database" / "portfolio.tsv",
+        OUT / "database" / "portfolio.jsonl",
+        OUT / "database" / "nih_reporter.sqlite",
+        OUT / "reports" / "program_officer_summary.tsv",
+        expand(OUT / "reports" / "portfolios" / "{qid}.md", qid=QIDS),
+        expand(OUT / "tables" / "{qid}.tsv", qid=QIDS),
+
+
+# One small JSON spec per query. Because the spec is passed as a param, the rule
+# (and everything downstream of that one query) reruns only when that query's
+# criteria change - editing one row of an input table does not refetch the rest.
+rule query_spec:
+    output:
+        OUT / "queries" / "{qid}.json",
+    params:
+        spec=lambda wc: json.dumps(QUERIES[wc.qid].to_dict(), sort_keys=True),
+    run:
+        pipeline.write_spec(QUERIES[wildcards.qid], output[0])
+
+
+# Hits the API. Requests are throttled process-wide (~1/s, per NIH guidance),
+# so running with several cores is safe but not much faster.
+# To refresh data later:  snakemake ... --forcerun fetch_query
+rule fetch_query:
+    input:
+        OUT / "queries" / "{qid}.json",
+    output:
+        OUT / "raw" / "{qid}.json",
+    log:
+        OUT / "logs" / "fetch" / "{qid}.log",
+    retries: 2
+    run:
+        h = log_to(log[0])
+        try:
+            pipeline.fetch_query(input[0], output[0], API_CFG)
+        finally:
+            release(h)
+
+
+rule flatten_query:
+    input:
+        OUT / "raw" / "{qid}.json",
+    output:
+        OUT / "tables" / "{qid}.tsv",
+    run:
+        pipeline.flatten_query(input[0], output[0])
+
+
+rule build_database:
+    input:
+        expand(OUT / "raw" / "{qid}.json", qid=QIDS),
+    output:
+        OUT / "database" / "queries.tsv",
+        OUT / "database" / "records.tsv",
+        OUT / "database" / "portfolio.tsv",
+        OUT / "database" / "query_hits.tsv",
+        OUT / "database" / "portfolio.jsonl",
+        OUT / "database" / "nih_reporter.sqlite",
+    log:
+        OUT / "logs" / "build_database.log",
+    run:
+        h = log_to(log[0])
+        try:
+            database.build_database(input, OUT / "database")
+        finally:
+            release(h)
+
+
+rule reports:
+    input:
+        OUT / "database" / "portfolio.tsv",
+        OUT / "database" / "queries.tsv",
+    output:
+        OUT / "reports" / "program_officer_summary.tsv",
+        expand(OUT / "reports" / "portfolios" / "{qid}.md", qid=QIDS),
+    run:
+        reports.write_reports(OUT / "database", OUT / "reports")

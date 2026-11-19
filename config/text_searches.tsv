@@ -1,0 +1,5 @@
+# Free-text searches, e.g. consortium names or acronyms.
+# Columns: search_text (required); search_field, operator, label, group (optional).
+# search_field defaults to projecttitle,terms,abstracttext; operator: and | or | advanced
+search_text	label	group
+IGVF	IGVF (text match)	IGVF
