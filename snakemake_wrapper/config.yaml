@@ -1,8 +1,0 @@
-### REQUIRED ARGUMENTS BY USER
-output_dir:
-  '/output'
-computing_threads:
-  1
-target_files: [
-  'out/sc_counts.csv'
-]

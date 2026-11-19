@@ -1,0 +1,613 @@
+{
+ "query": {
+  "query_id": "po_pazin_michael",
+  "query_type": "program_officer",
+  "value": "Michael Pazin",
+  "label": "Michael Pazin",
+  "group": "NHGRI functional genomics",
+  "criteria": {
+   "include_active_projects": true,
+   "po_names": [
+    {
+     "first_name": "Michael",
+     "last_name": "Pazin"
+    }
+   ]
+  }
+ },
+ "retrieved_at": "2026-11-19T15:33:02+00:00",
+ "search_id": "S5WUpqAmBEexwY81L8e47A",
+ "reporter_url": "https://reporter.nih.gov/search/S5WUpqAmBEexwY81L8e47A/projects",
+ "total": 65,
+ "results": [
+  {
+   "appl_id": 11092153,
+   "subproject_id": null,
+   "fiscal_year": 2025,
+   "project_num": "5UM1HG012010-05",
+   "project_serial_num": "HG012010",
+   "organization": {
+    "org_name": "MASSACHUSETTS GENERAL HOSPITAL",
+    "city": null,
+    "country": null,
+    "org_city": "BOSTON",
+    "org_country": "UNITED STATES",
+    "org_state": "MA",
+    "org_state_name": null,
+    "dept_type": null,
+    "fips_country_code": null,
+    "org_duns": [
+     "073130411"
+    ],
+    "org_ueis": [
+     "FLJ7DQKLL226"
+    ],
+    "primary_duns": "073130411",
+    "primary_uei": "FLJ7DQKLL226",
+    "org_fips": "US",
+    "org_ipf_code": "4907701",
+    "org_zipcode": "021142621",
+    "external_org_id": 4907701
+   },
+   "award_type": "5",
+   "activity_code": "UM1",
+   "award_amount": 1890246,
+   "is_active": true,
+   "project_num_split": {
+    "appl_type_code": "5",
+    "activity_code": "UM1",
+    "ic_code": "HG",
+    "serial_num": "012010",
+    "support_year": "05",
+    "full_support_year": "05",
+    "suffix_code": ""
+   },
+   "principal_investigators": [
+    {
+     "profile_id": 10124304,
+     "first_name": "Daniel",
+     "middle_name": "Evan",
+     "last_name": "Bauer",
+     "is_contact_pi": false,
+     "full_name": "Daniel Evan Bauer",
+     "title": ""
+    },
+    {
+     "profile_id": 11149896,
+     "first_name": "Luca",
+     "middle_name": "",
+     "last_name": "Pinello",
+     "is_contact_pi": true,
+     "full_name": "Luca  Pinello",
+     "title": "ASSISTANT PROFESSOR"
+    },
+    {
+     "profile_id": 10574804,
+     "first_name": "Richard",
+     "middle_name": "I",
+     "last_name": "Sherwood",
+     "is_contact_pi": false,
+     "full_name": "Richard I Sherwood",
+     "title": ""
+    }
+   ],
+   "contact_pi_name": "PINELLO, LUCA ",
+   "program_officers": [
+    {
+     "first_name": "MICHAEL",
+     "middle_name": "J",
+     "last_name": "PAZIN",
+     "full_name": "MICHAEL J PAZIN"
+    }
+   ],
+   "agency_ic_admin": {
+    "code": "HG",
+    "abbreviation": "NHGRI",
+    "name": "National Human Genome Research Institute",
+    "admin_org_id": "12500074",
+    "admin_funding_url": ""
+   },
+   "agency_ic_fundings": [
+    {
+     "fy": 2025,
+     "code": "HG",
+     "name": "National Human Genome Research Institute",
+     "abbreviation": "NHGRI",
+     "total_cost": 1890246.0,
+     "direct_cost_ic": 1589453.0,
+     "indirect_cost_ic": 300793.0
+    }
+   ],
+   "cong_dist": "MA-08",
+   "spending_categories": [
+    108,
+    140,
+    276,
+    299,
+    300,
+    306,
+    320
+   ],
+   "project_start_date": "2021-09-01T00:00:00",
+   "project_end_date": "2027-05-31T00:00:00",
+   "organization_type": {
+    "name": "Independent Hospitals",
+    "code": "30",
+    "is_other": false
+   },
+   "geo_lat_lon": {
+    "lon": -71.068772,
+    "lat": 42.363198
+   },
+   "opportunity_number": "RFA-HG-20-043",
+   "full_study_section": {
+    "srg_code": "ZHG1",
+    "srg_flex": null,
+    "sra_designator_code": "HGR",
+    "sra_flex_code": "P",
+    "group_code": "M2",
+    "name": "ZHG1-HGR-P(M2)"
+   },
+   "award_notice_date": "2025-08-29T00:00:00",
+   "is_new": false,
+   "mechanism_code_dc": "RP",
+   "core_project_num": "UM1HG012010",
+   "terms": "<Active Follow-up><Address><Assay><Bioassay><Biological><Biological Assay><Blood><Blood Cells><Blood Diseases><Blood Neutrophil><Blood Platelets><Blood Polymorphonuclear Neutrophil><Blood Pressure><Blood Reticuloendothelial System><Blood Serum><Blood erythrocyte><Blood leukocyte><CRISPR><CRISPR activation><CRISPR activator><CRISPR approach><CRISPR based activation><CRISPR based approach><CRISPR editing screen><CRISPR gene activation><CRISPR interference><CRISPR method><CRISPR methodology><CRISPR screen><CRISPR technique><CRISPR technology><CRISPR tools><CRISPR transcription activation><CRISPR transcriptional activation><CRISPR-CAS-9><CRISPR-Cas-9-mediated gene activation><CRISPR-based gene activation><CRISPR-based method><CRISPR-based screen><CRISPR-based technique><CRISPR-based technology><CRISPR-based tool><CRISPR-dCAS9 Activator><CRISPR-dCas9-mediated repression><CRISPR-mediated transcriptional activation><CRISPR/CAS approach><CRISPR/CAS9 activation><CRISPR/CAS9 gene activation><CRISPR/Cas method><CRISPR/Cas system><CRISPR/Cas technology><CRISPR/Cas9><CRISPR/Cas9 screen><CRISPR/Cas9 technology><CRISPR/dCas9 activation><CRISPR/dCas9 interference><CRISPR/dCas9-based transcriptional activation><CRISPR/dCas9-mediated transcriptional inhibition><CRISPRa><CRISPRi><Cardiac Diseases><Cardiac Disorders><Cardiovascular><Cardiovascular Body System><Cardiovascular Diseases><Cardiovascular Organ System><Cardiovascular system><Cas nuclease technology><Catalogs><Causality><Cell Body><Cell Function><Cell Line><Cell Physiology><Cell Process><CellLine><Cells><Cellular Assay><Cellular Function><Cellular Physiology><Cellular Process><Chromatin><Clustered Regularly Interspaced Short Palindromic Repeats><Clustered Regularly Interspaced Short Palindromic Repeats approach><Clustered Regularly Interspaced Short Palindromic Repeats interference><Clustered Regularly Interspaced Short Palindromic Repeats method><Clustered Regularly Interspaced Short Palindromic Repeats methodology><Clustered Regularly Interspaced Short Palindromic Repeats technique><Clustered Regularly Interspaced Short Palindromic Repeats technology><Collaborations><Communities><Computing Methodologies><Coronary Arteriosclerosis><Coronary Artery Disease><Coronary Artery Disorder><Coronary Atherosclerosis><Data><Data Collection><Data Set><Development><Diathesis><Disease><Disease susceptibility><Disorder><Dissection><Dyslipidemias><Elements><Epigenetic><Epigenetic Change><Epigenetic Mechanism><Epigenetic Process><Erythrocytes><Erythrocytic><Ethnic Origin><Ethnicity><Etiology><Fetal Hb><Fetal Hemoglobin><Frequencies><GWA study><GWAS><Gene Expression><Gene Frequency><Gene variant><Genes><Genetic><Genetic Diversity><Genetic Variation><Genome><Genotype><Goals><HDL Cholesterol><HDL Cholesterol Lipoproteins><HbF><Heart Diseases><Heart Vascular><Hematologic Diseases><Hematological Disease><Hematological Disorder><Hematology><Hemoglobin F><Hemoglobin concentration result><High Density Lipoprotein Cholesterol><High Throughput Assay><Human><Human Genetics><Hypertension><Individual><LDL Cholesterol><LDL Cholesterol Lipoproteins><Leukocytes><Leukocytes Reticuloendothelial System><Link><Low Density Lipoprotein Cholesterol><Machine Learning><Maps><Marrow Neutrophil><Marrow erythrocyte><Marrow leukocyte><Marrow platelet><Measures><Methods><Modeling><Modern Man><Molecular><Neutrophilic Granulocyte><Neutrophilic Leukocyte><Patients><Peripheral Blood Cell><Phenotype><Platelets><Polymorphonuclear Cell><Polymorphonuclear Leukocytes><Polymorphonuclear Neutrophils><Position><Positioning Attribute><Probability><Red Blood Cells><Red Cell><Regulatory Element><Reporting><Research><Risk><Risk Factors><Scheme><Serum><Strains Cell Lines><Subcellular Process><Technology><Testing><Thrombocytes><Validation><Variant><Variation><Vascular Hypertensive Disease><Vascular Hypertensive Disorder><Visualization><White Blood Cells><White Cell><Writing><activating CRISPR technology><active followup><allelic frequency><allelic variant><alpha-Lipoprotein Cholesterol><atherosclerotic coronary disease><base editing><base editor><beta-Lipoprotein Cholesterol><biologic><blood corpuscles><blood disorder><blood lipid><cardiovascular disorder><catalog><causal allele><causal gene><causal mutation><causal variant><causation><causative mutation><causative variant><cell assay><circulatory system><clustered regularly interspaced short palindromic repeats screen><computational methodology><computational methods><computational pipelines><computer based method><computer based prediction><computer methods><computing method><coronary arterial disease><cultured cell line><data sharing><design><designing><developmental><disease causation><disease risk><disorder risk><epigenetically><fetal form of hemoglobin><fetal globin><follow up><follow-up><followed up><followup><functional genomics><genetic association><genetic variant><genome editing><genome wide association><genome wide association scan><genome wide association study><genomewide association scan><genomewide association study><genomic editing><genomic variant><genomic variation><heart disorder><hemoglobin level><high blood pressure><high throughput screening><human disease><hyperpiesia><hyperpiesis><hypertensive disease><hypertensive disorder><liability to disease><machine based learning><multi-ethnic><multi-modality><multiethnic><multimodality><neutrophil><new therapeutic approach><new therapeutic intervention><new therapeutic strategies><new therapy approaches><new treatment approach><new treatment strategy><next generation><novel therapeutic approach><novel therapeutic intervention><novel therapeutic strategies><novel therapy approach><open source><precise genome editing><predictive modeling><programs><repressing CRISPR-dCas9 system><scRNA sequencing><scRNA-seq><screening><screenings><sex><single cell RNA-seq><single cell RNAseq><single cell expression profiling><single cell transcriptomic profiling><single-cell RNA sequencing><trait><validations><white blood cell><white blood corpuscle><whole genome association analysis><whole genome association study><work group><working group>",
+   "pref_terms": "Address;Biological;Biological Assay;Blood;Blood Cells;Blood Platelets;Blood Pressure;CRISPR interference;CRISPR screen;CRISPR-mediated transcriptional activation;CRISPR/Cas technology;Cardiovascular Diseases;Cardiovascular system;Catalogs;Cell Line;Cell Physiology;Cells;Cellular Assay;Chromatin;Clustered Regularly Interspaced Short Palindromic Repeats;Collaborations;Communities;Computing Methodologies;Coronary Arteriosclerosis;Data;Data Collection;Data Set;Development;Disease;Disease susceptibility;Dissection;Dyslipidemias;Elements;Epigenetic Process;Erythrocytes;Ethnic Origin;Etiology;Fetal Hemoglobin;Frequencies;Gene Expression;Gene Frequency;Genes;Genetic;Genetic Variation;Genome;Genotype;Goals;Heart Diseases;Hematological Disease;Hematology;Hemoglobin concentration result;High Density Lipoprotein Cholesterol;Human;Human Genetics;Hypertension;Individual;LDL Cholesterol Lipoproteins;Leukocytes;Link;Machine Learning;Maps;Measures;Methods;Modeling;Molecular;Patients;Phenotype;Positioning Attribute;Probability;Regulatory Element;Reporting;Research;Risk;Risk Factors;Scheme;Serum;Technology;Testing;Validation;Variant;Visualization;Writing;base editing;base editor;blood lipid;causal variant;computational pipelines;data sharing;design;disorder risk;follow-up;functional genomics;genetic association;genetic variant;genome editing;genome wide association study;genomic variation;high throughput screening;human disease;multi-ethnic;multimodality;neutrophil;next generation;novel therapeutic intervention;open source;precise genome editing;predictive modeling;programs;screening;sex;single-cell RNA sequencing;trait;working group",
+   "abstract_text": "Project Summary\nHow genomic variation influences cellular function is a fundamental problem with tremendous importance for\nhuman disease. While it has traditionally been difficult to study the effects of specific sequence variants in an\nexperimentally controlled manner, precise genome editing technologies such as CRISPR base editing enable\n\u201cwriting\u201d of trait-associated variants to cells to unravel their function. In this proposal, we will perform multi-modal\ngenome editing-based functional characterization of a total of 72,000 genomic variants associated with\ncardiovascular diseases (CVDs) and hematological traits. CVD and blood traits are uniquely suited to functional\ndissection because cardiovascular (coronary artery disease, high blood pressure, dyslipidemia) and blood traits\nhave among the best-powered multi-ethnic GWAS of any traits, and a substantial component of trait variability\ncan be captured in cellular assays that can be scaled to perform high-throughput screening.\nWe have assembled an interdisciplinary team of world-class experts to provide a generalizable pipeline to\nunravel the functional impact of CVD and blood trait variants by integrating: (1) rich and ancestry-diverse human\ngenetic discoveries, (2) broadly targetable CRISPR base editors and efficient delivery to primary human cells,\n(3) high-content assays to profile phenotypes at the levels of chromatin, gene expression and cellular function,\nand (4) computational methods to design, interpret, visualize, and share experimental results.\nIn Aim 1, we will employ a robust, three-tiered variant prioritization scheme that incorporates evidence for disease\nassociation from large, multi-ethnic GWAS as well as probability of causality to nominate variants for functional\nassessment. Through this scheme, we will select variants associated with red blood cell and neutrophil traits,\ncoronary artery disease, blood pressure, and HDL and LDL cholesterol that span a range of allelic frequencies\nand likely causality to test in high-throughput cellular assays.\nIn Aim 2, we will perform systematic cellular phenotype-based screens using base editors to install candidate\nvariants as well as CRISPR epigenetic inhibition and activation to explore variant-containing regulatory elements.\nWe will use eight established, scalable cellular phenotypic readouts, each of which will enable us to assess\nwhich of 12,000 variants and variant-centered elements alter CVD and blood trait-associated cellular\nphenotypes. We will additionally employ a high-throughput, genome-integrated chromatin accessibility assay to\nassess which variants alter chromatin accessibility in trait-relevant cell lines. We will follow up with targeted single\ncell RNA-seq of 5,600 variants in primary cells from donors of different sex and ethnicity.\nIn Aim 3, we will produce a catalog of validated variants and their association with phenotypes for each of the\nproposed screens. We will collaborate with other IGVF groups to utilize these data to optimize models that predict\nfunctional variants, regulatory elements and disease-causing biological mechanisms, ultimately leading to more\ncomplete understanding of the genetic underpinnings of cardiovascular and blood disease risk.",
+   "project_title": "Comprehensive characterization of variants underlying heart and blood diseases with CRISPR base editing",
+   "phr_text": "Project Narrative\nGenetic variation dictates an individual\u2019s risk of developing common ailments such as heart and blood diseases.\nTraditionally, it has been difficult to determine which of the millions of sequence variants influence disease\nsusceptibility due to a lack of technologies that enable the causal assignment of genetic variants at scale. To\naddress this unmet need, we will develop a generalizable pipeline that leverages technological breakthroughs in\nprecise genome editing to unravel the functional impact of genetic variation on heart and blood disease risk,\noffering a rich catalog of the consequences of thousands of disease-associated variants that will be of broad\nutility to the Impact of Genomic Variation on Function (IGVF) Consortium and wider biomedical community.",
+   "spending_categories_desc": "Biotechnology; Cardiovascular; Genetics; Heart Disease; Heart Disease - Coronary Heart Disease; Hematology; Human Genome",
+   "agency_code": "NIH",
+   "covid_response": null,
+   "arra_funded": "N",
+   "budget_start": "2025-06-01T00:00:00",
+   "budget_end": "2027-05-31T00:00:00",
+   "cfda_code": "93.172",
+   "funding_mechanism": "Non-SBIR/STTR",
+   "direct_cost_amt": 1589453,
+   "indirect_cost_amt": 300793,
+   "project_detail_url": "https://reporter.nih.gov/project-details/11092153",
+   "date_added": "2025-09-07T22:56:09",
+   "multiyear_award_flag": null
+  },
+  {
+   "appl_id": 11518842,
+   "subproject_id": null,
+   "fiscal_year": 2026,
+   "project_num": "3UM1HG012010-05S1",
+   "project_serial_num": "HG012010",
+   "organization": {
+    "org_name": "MASSACHUSETTS GENERAL HOSPITAL",
+    "city": null,
+    "country": null,
+    "org_city": "BOSTON",
+    "org_country": "UNITED STATES",
+    "org_state": "MA",
+    "org_state_name": null,
+    "dept_type": null,
+    "fips_country_code": null,
+    "org_duns": [
+     "073130411"
+    ],
+    "org_ueis": [
+     "FLJ7DQKLL226"
+    ],
+    "primary_duns": "073130411",
+    "primary_uei": "FLJ7DQKLL226",
+    "org_fips": "US",
+    "org_ipf_code": "4907701",
+    "org_zipcode": "021142621",
+    "external_org_id": 4907701
+   },
+   "award_type": "3",
+   "activity_code": "UM1",
+   "award_amount": 1701223,
+   "is_active": true,
+   "project_num_split": {
+    "appl_type_code": "3",
+    "activity_code": "UM1",
+    "ic_code": "HG",
+    "serial_num": "012010",
+    "support_year": "05",
+    "full_support_year": "05S1",
+    "suffix_code": "S1"
+   },
+   "principal_investigators": [
+    {
+     "profile_id": 10124304,
+     "first_name": "Daniel",
+     "middle_name": "Evan",
+     "last_name": "Bauer",
+     "is_contact_pi": false,
+     "full_name": "Daniel Evan Bauer",
+     "title": ""
+    },
+    {
+     "profile_id": 11149896,
+     "first_name": "Luca",
+     "middle_name": "",
+     "last_name": "Pinello",
+     "is_contact_pi": true,
+     "full_name": "Luca  Pinello",
+     "title": "ASSISTANT PROFESSOR"
+    },
+    {
+     "profile_id": 10574804,
+     "first_name": "Richard",
+     "middle_name": "I",
+     "last_name": "Sherwood",
+     "is_contact_pi": false,
+     "full_name": "Richard I Sherwood",
+     "title": ""
+    }
+   ],
+   "contact_pi_name": "PINELLO, LUCA ",
+   "program_officers": [
+    {
+     "first_name": "MICHAEL",
+     "middle_name": "J",
+     "last_name": "PAZIN",
+     "full_name": "MICHAEL J PAZIN"
+    }
+   ],
+   "agency_ic_admin": {
+    "code": "HG",
+    "abbreviation": "NHGRI",
+    "name": "National Human Genome Research Institute",
+    "admin_org_id": "12500074",
+    "admin_funding_url": ""
+   },
+   "agency_ic_fundings": [
+    {
+     "fy": 2026,
+     "code": "HG",
+     "name": "National Human Genome Research Institute",
+     "abbreviation": "NHGRI",
+     "total_cost": 1701223.0,
+     "direct_cost_ic": 1406507.0,
+     "indirect_cost_ic": 294716.0
+    }
+   ],
+   "cong_dist": "MA-08",
+   "spending_categories": null,
+   "project_start_date": "2021-09-01T00:00:00",
+   "project_end_date": "2027-05-31T00:00:00",
+   "organization_type": {
+    "name": "Independent Hospitals",
+    "code": "30",
+    "is_other": false
+   },
+   "geo_lat_lon": {
+    "lon": -71.068772,
+    "lat": 42.363198
+   },
+   "opportunity_number": "PA-26-001",
+   "full_study_section": {
+    "srg_code": null,
+    "srg_flex": null,
+    "sra_designator_code": null,
+    "sra_flex_code": null,
+    "group_code": "M2",
+    "name": null
+   },
+   "award_notice_date": "2026-06-25T00:00:00",
+   "is_new": false,
+   "mechanism_code_dc": "RP",
+   "core_project_num": "UM1HG012010",
+   "terms": "<Active Follow-up><Address><Assay><Bioassay><Biological><Biological Assay><Blood><Blood Diseases><Blood Neutrophil><Blood Polymorphonuclear Neutrophil><Blood Pressure><Blood Reticuloendothelial System><Blood erythrocyte><CRISPR><CRISPR/Cas system><Cardiac Diseases><Cardiac Disorders><Cardiovascular><Cardiovascular Body System><Cardiovascular Diseases><Cardiovascular Organ System><Cardiovascular system><Catalogs><Causality><Cell Body><Cell Function><Cell Line><Cell Physiology><Cell Process><CellLine><Cells><Cellular Assay><Cellular Function><Cellular Physiology><Cellular Process><Chromatin><Clustered Regularly Interspaced Short Palindromic Repeats><Collaborations><Communities><Computing Methodologies><Coronary Arteriosclerosis><Coronary Artery Disease><Coronary Artery Disorder><Coronary Atherosclerosis><Data><Diathesis><Disease><Disease susceptibility><Disorder><Dissection><Dyslipidemias><Elements><Epigenetic><Epigenetic Change><Epigenetic Mechanism><Epigenetic Process><Erythrocytes><Erythrocytic><Ethnic Origin><Ethnicity><Etiology><GWA study><GWAS><Gene Expression><Gene Frequency><Gene variant><Genetic><Genetic Diversity><Genetic Variation><Genome><HDL Cholesterol><HDL Cholesterol Lipoproteins><Heart Diseases><Heart Vascular><Hematologic Diseases><Hematological Disease><Hematological Disorder><Hematology><High Density Lipoprotein Cholesterol><High Throughput Assay><Human><Human Genetics><Hypertension><Individual><LDL Cholesterol><LDL Cholesterol Lipoproteins><Low Density Lipoprotein Cholesterol><Marrow Neutrophil><Marrow erythrocyte><Modern Man><Neutrophilic Granulocyte><Neutrophilic Leukocyte><Phenotype><Polymorphonuclear Cell><Polymorphonuclear Leukocytes><Polymorphonuclear Neutrophils><Probability><Red Blood Cells><Red Cell><Regulatory Element><Risk><Scheme><Strains Cell Lines><Subcellular Process><Technology><Testing><Variant><Variation><Vascular Hypertensive Disease><Vascular Hypertensive Disorder><Visualization><Writing><active followup><allelic frequency><allelic variant><alpha-Lipoprotein Cholesterol><atherosclerotic coronary disease><base editing><base editor><beta-Lipoprotein Cholesterol><biologic><blood corpuscles><blood disorder><cardiovascular disorder><catalog><causation><cell assay><circulatory system><computational methodology><computational methods><computer based method><computer based prediction><computer methods><computing method><coronary arterial disease><cultured cell line><design><designing><disease causation><disease risk><disorder risk><epigenetically><follow up><follow-up><followed up><followup><genetic variant><genome editing><genome wide association><genome wide association scan><genome wide association study><genomewide association scan><genomewide association study><genomic editing><genomic variant><genomic variation><heart disorder><high blood pressure><high throughput screening><human disease><hyperpiesia><hyperpiesis><hypertensive disease><hypertensive disorder><liability to disease><multi-ethnic><multi-modality><multiethnic><multimodality><neutrophil><precise genome editing><predictive modeling><scRNA sequencing><scRNA-seq><sex><single cell RNA-seq><single cell RNAseq><single cell expression profiling><single cell transcriptomic profiling><single-cell RNA sequencing><trait><whole genome association analysis><whole genome association study>",
+   "pref_terms": "Address;Biological;Biological Assay;Blood;Blood Pressure;Cardiovascular Diseases;Cardiovascular system;Catalogs;Cell Line;Cell Physiology;Cells;Cellular Assay;Chromatin;Clustered Regularly Interspaced Short Palindromic Repeats;Collaborations;Communities;Computing Methodologies;Coronary Arteriosclerosis;Data;Disease;Disease susceptibility;Dissection;Dyslipidemias;Elements;Epigenetic Process;Erythrocytes;Ethnic Origin;Etiology;Gene Expression;Gene Frequency;Genetic;Genetic Variation;Genome;Heart Diseases;Hematological Disease;Hematology;High Density Lipoprotein Cholesterol;Human;Human Genetics;Hypertension;Individual;LDL Cholesterol Lipoproteins;Phenotype;Probability;Regulatory Element;Risk;Scheme;Technology;Testing;Variant;Visualization;Writing;base editing;base editor;design;disorder risk;follow-up;genetic variant;genome editing;genome wide association study;genomic variation;high throughput screening;human disease;multi-ethnic;multimodality;neutrophil;precise genome editing;predictive modeling;sex;single-cell RNA sequencing;trait",
+   "abstract_text": "Project Summary\nHow genomic variation influences cellular function is a fundamental problem with tremendous importance for\nhuman disease. While it has traditionally been difficult to study the effects of specific sequence variants in an\nexperimentally controlled manner, precise genome editing technologies such as CRISPR base editing enable\n\u201cwriting\u201d of trait-associated variants to cells to unravel their function. In this proposal, we will perform multi-modal\ngenome editing-based functional characterization of a total of 72,000 genomic variants associated with\ncardiovascular diseases (CVDs) and hematological traits. CVD and blood traits are uniquely suited to functional\ndissection because cardiovascular (coronary artery disease, high blood pressure, dyslipidemia) and blood traits\nhave among the best-powered multi-ethnic GWAS of any traits, and a substantial component of trait variability\ncan be captured in cellular assays that can be scaled to perform high-throughput screening.\nWe have assembled an interdisciplinary team of world-class experts to provide a generalizable pipeline to\nunravel the functional impact of CVD and blood trait variants by integrating: (1) rich and ancestry-diverse human\ngenetic discoveries, (2) broadly targetable CRISPR base editors and efficient delivery to primary human cells,\n(3) high-content assays to profile phenotypes at the levels of chromatin, gene expression and cellular function,\nand (4) computational methods to design, interpret, visualize, and share experimental results.\nIn Aim 1, we will employ a robust, three-tiered variant prioritization scheme that incorporates evidence for disease\nassociation from large, multi-ethnic GWAS as well as probability of causality to nominate variants for functional\nassessment. Through this scheme, we will select variants associated with red blood cell and neutrophil traits,\ncoronary artery disease, blood pressure, and HDL and LDL cholesterol that span a range of allelic frequencies\nand likely causality to test in high-throughput cellular assays.\nIn Aim 2, we will perform systematic cellular phenotype-based screens using base editors to install candidate\nvariants as well as CRISPR epigenetic inhibition and activation to explore variant-containing regulatory elements.\nWe will use eight established, scalable cellular phenotypic readouts, each of which will enable us to assess\nwhich of 12,000 variants and variant-centered elements alter CVD and blood trait-associated cellular\nphenotypes. We will additionally employ a high-throughput, genome-integrated chromatin accessibility assay to\nassess which variants alter chromatin accessibility in trait-relevant cell lines. We will follow up with targeted single\ncell RNA-seq of 5,600 variants in primary cells from donors of different sex and ethnicity.\nIn Aim 3, we will produce a catalog of validated variants and their association with phenotypes for each of the\nproposed screens. We will collaborate with other IGVF groups to utilize these data to optimize models that predict\nfunctional variants, regulatory elements and disease-causing biological mechanisms, ultimately leading to more\ncomplete understanding of the genetic underpinnings of cardiovascular and blood disease risk.",
+   "project_title": "Comprehensive characterization of variants underlying heart and blood diseases with CRISPR base editing",
+   "phr_text": "Project Narrative\nGenetic variation dictates an individual\u2019s risk of developing common ailments such as heart and blood diseases.\nTraditionally, it has been difficult to determine which of the millions of sequence variants influence disease\nsusceptibility due to a lack of technologies that enable the causal assignment of genetic variants at scale. To\naddress this unmet need, we will develop a generalizable pipeline that leverages technological breakthroughs in\nprecise genome editing to unravel the functional impact of genetic variation on heart and blood disease risk,\noffering a rich catalog of the consequences of thousands of disease-associated variants that will be of broad\nutility to the Impact of Genomic Variation on Function (IGVF) Consortium and wider biomedical community.",
+   "spending_categories_desc": null,
+   "agency_code": "NIH",
+   "covid_response": null,
+   "arra_funded": "N",
+   "budget_start": "2026-06-01T00:00:00",
+   "budget_end": "2027-05-31T00:00:00",
+   "cfda_code": "93.172",
+   "funding_mechanism": "Non-SBIR/STTR",
+   "direct_cost_amt": 1406507,
+   "indirect_cost_amt": 294716,
+   "project_detail_url": "https://reporter.nih.gov/project-details/11518842",
+   "date_added": "2026-06-27T17:03:54",
+   "multiyear_award_flag": null
+  },
+  {
+   "appl_id": 10909556,
+   "subproject_id": null,
+   "fiscal_year": 2024,
+   "project_num": "1DP2HG014283-01",
+   "project_serial_num": "HG014283",
+   "organization": {
+    "org_name": "YALE UNIVERSITY",
+    "city": null,
+    "country": null,
+    "org_city": "NEW HAVEN",
+    "org_country": "UNITED STATES",
+    "org_state": "CT",
+    "org_state_name": null,
+    "dept_type": "PATHOLOGY",
+    "fips_country_code": null,
+    "org_duns": [
+     "043207562"
+    ],
+    "org_ueis": [
+     "FL6GV84CKN57"
+    ],
+    "primary_duns": "043207562",
+    "primary_uei": "FL6GV84CKN57",
+    "org_fips": "US",
+    "org_ipf_code": "9420201",
+    "org_zipcode": "065208327",
+    "external_org_id": 9420201
+   },
+   "award_type": "1",
+   "activity_code": "DP2",
+   "award_amount": 1507500,
+   "is_active": true,
+   "project_num_split": {
+    "appl_type_code": "1",
+    "activity_code": "DP2",
+    "ic_code": "HG",
+    "serial_num": "014283",
+    "support_year": "01",
+    "full_support_year": "01",
+    "suffix_code": ""
+   },
+   "principal_investigators": [
+    {
+     "profile_id": 14749029,
+     "first_name": "Salil",
+     "middle_name": "",
+     "last_name": "Garg",
+     "is_contact_pi": true,
+     "full_name": "Salil  Garg",
+     "title": "ASSISTANT PROFESSOR"
+    }
+   ],
+   "contact_pi_name": "GARG, SALIL ",
+   "program_officers": [
+    {
+     "first_name": "MICHAEL",
+     "middle_name": "J",
+     "last_name": "PAZIN",
+     "full_name": "MICHAEL J PAZIN"
+    }
+   ],
+   "agency_ic_admin": {
+    "code": "HG",
+    "abbreviation": "NHGRI",
+    "name": "National Human Genome Research Institute",
+    "admin_org_id": "12500074",
+    "admin_funding_url": ""
+   },
+   "agency_ic_fundings": [
+    {
+     "fy": 2024,
+     "code": "OD",
+     "name": "NIH Office of the Director",
+     "abbreviation": "OD",
+     "total_cost": 1507500.0,
+     "direct_cost_ic": 900000.0,
+     "indirect_cost_ic": 607500.0
+    }
+   ],
+   "cong_dist": "CT-03",
+   "spending_categories": [
+    276,
+    320,
+    796,
+    798
+   ],
+   "project_start_date": "2024-09-25T00:00:00",
+   "project_end_date": "2027-08-31T00:00:00",
+   "organization_type": {
+    "name": "SCHOOLS OF MEDICINE",
+    "code": "10",
+    "is_other": false
+   },
+   "geo_lat_lon": {
+    "lon": -72.926428,
+    "lat": 41.310925
+   },
+   "opportunity_number": "RFA-RM-23-005",
+   "full_study_section": {
+    "srg_code": "ZRG1",
+    "srg_flex": null,
+    "sra_designator_code": "RCCS",
+    "sra_flex_code": "A",
+    "group_code": "70",
+    "name": "Special Emphasis Panel[ZRG1 RCCS-A (70)]"
+   },
+   "award_notice_date": "2024-09-25T00:00:00",
+   "is_new": false,
+   "mechanism_code_dc": "RP",
+   "core_project_num": "DP2HG014283",
+   "terms": "<21+ years old><Adult><Adult Human><Assay><Autoregulation><Basal Transcription Factor><Basal transcription factor genes><Behavior><Bioassay><Biologic Models><Biological Assay><Biological Models><Cancers><Cell Body><Cell Communication and Signaling><Cell Function><Cell Physiology><Cell Process><Cell Signaling><Cells><Cellular Function><Cellular Physiology><Cellular Process><Development><ES cell><Embryo><Embryonic><Enhancers><Epigenetic><Epigenetic Change><Epigenetic Mechanism><Epigenetic Process><Exhibits><Future><Gene Expression><Gene Expression Process><Gene Transcription><General Transcription Factor Gene><General Transcription Factors><Generations><Genes><Genetic Alteration><Genetic Change><Genetic Template><Genetic Transcription><Genetic defect><Genome><Genomics><Goals><Health><Heritability><Heterogeneity><Homeostasis><Human><Immune><Immunes><Intracellular Communication and Signaling><Intratumoral heterogeneity><Malignant Neoplasms><Malignant Tumor><Mammalia><Mammals><Memory><Model System><Modern Man><Mutation><Noise><Nucleic Acid Regulator Regions><Nucleic Acid Regulatory Sequences><Physiological Homeostasis><Population><Production><Progenitor Cells><RNA Expression><Regenerative Medicine><Regulation><Regulator Genes><Regulatory Regions><Reproducibility><Signal Transduction><Signal Transduction Systems><Signaling><Stochastic Processes><Subcellular Process><System><Systems Biology><Transcription><Transcription Factor Proto-Oncogene><Transcription factor genes><Transcriptional Regulatory Elements><Transmission><Treatment Failure><Variant><Variation><adulthood><biological signal transduction><cell type><developmental><embryonic progenitor><embryonic stem cell><epigenetically><gene product><genetic regulatory element><genome mutation><heterogeneity in tumors><intra-tumoral heterogeneity><intratumor heterogeneity><malignancy><neoplasm/cancer><new therapeutic approach><new therapeutic intervention><new therapeutic strategies><new therapy approaches><new treatment approach><new treatment strategy><non-genetic><nongenetic><novel therapeutic approach><novel therapeutic intervention><novel therapeutic strategies><novel therapy approach><progenitor cell function><progenitor function><programs><regulatory gene><stem and progenitor cell function><stem and progenitor function><stem cell function><stem cell of embryonic origin><stem cells><stochastic method><therapeutic target><therapy failure><trans acting element><transcription factor><transmission process><tumor heterogeneity>",
+   "pref_terms": "Adult;Behavior;Biological Assay;Biological Models;Cell Physiology;Cells;Development;Embryo;Enhancers;Epigenetic Process;Exhibits;Future;Gene Expression;Gene Expression Process;Generations;Genes;Genetic Template;Genetic Transcription;Genome;Genomics;Goals;Health;Heritability;Heterogeneity;Homeostasis;Human;Immune;Malignant Neoplasms;Mammals;Memory;Mutation;Noise;Nucleic Acid Regulatory Sequences;Population;Production;Regenerative Medicine;Regulation;Regulator Genes;Reproducibility;Signal Transduction;Stochastic Processes;System;Systems Biology;Treatment Failure;Variant;cell type;embryonic stem cell;gene product;non-genetic;novel therapeutic intervention;programs;stem cell function;stem cells;therapeutic target;transcription factor;transmission process;tumor heterogeneity",
+   "abstract_text": "Project Summary/Abstract\nIn development, the embryo generates many cell types with distinct gene expression programs, leading to\nheterogeneity across cells. In cancer, mutation generates heterogeneity, with a growing recognition that non-\ngenetic (epigenetic) mechanisms contribute to tumor heterogeneity and treatment failure. The ability to take the\nsame genetic template and form different cell states, exhibiting cell-to-cell variation in gene expression and\nbehavior, is fundamental to many cell systems across problems in human health including stem cells, cancer,\nand immune cell function. Yet, the mechanisms by which cell systems encode heterogeneity in gene expression\nare unclear. Pluripotent embryonic stem cells give rise to all the cells of the adult mammal, and primary\nembryonic stem cells are genetically stable in culture, making them an ideal system for studying the emergence\nof non-genetic heterogeneity in cell systems. Cell-to-cell variation in gene expression that arises in the absence\nof environmental signals has previously been termed `noise', or attributed to stochastic processes of gene\nexpression. However, gene expression heterogeneity is reproducible, suggesting regulation. The goal of this\nproposal is to identify regulatory mechanisms by which the genome encodes non-genetic heterogeneity in cell\nsystems. We will use embryonic stem cells as a model system for gene expression heterogeneity. First, we will\nidentify transcription factor pairs whose combined activity at enhancers leads to transcriptional heterogeneity of\nthe regulated gene. In order for heterogeneity to result in forming distinct states with the potential to prime stem\ncells into different lineages, heterogeneity must be heritable. Second, using a modified Luria-Delbruck fluctuation\nanalysis, we will identify memory loci capable of heritable transmission of non-genetic heterogeneity across cell\ngenerations. Motifs such as autoregulation, whereby a gene's product can regulate its own production, may\ncontribute to the formation of different cell states and therefore to heterogeneity across a cell population. Third,\nwe will manipulate a single factor within or outside of an autoregulatory loop to determine how it impacts\nheterogeneity. To accomplish these goals, we will leverage an assay we have developed which allows the\nidentification of actively transcribed regulatory regions and genes in small subsets of cells. Completion of these\ngoals will address longstanding questions about the origins of heterogeneity in cell systems and will advance a\nsystems level approach for understanding cell state. If successful, the proposal may unlock future studies\napplying similar approaches to identify non-genetic drivers of tumor heterogeneity and treatment failure.\nTherapeutic targeting of these mechanisms may unlock new treatment strategies for cancer.",
+   "project_title": "Genomic encoding of heterogeneity",
+   "phr_text": "Project Narrative\nCell-to-cell differences in gene expression (heterogeneity) underlies stem cell function and cancer,\nthough we lack understanding of its origins. Here we propose to identify fundamental mechanisms by\nwhich cell systems encode heterogeneity using genomics and systems biology approaches. By\nidentifying the principles by which cells encode gene expression heterogeneity we can unlock new\ntherapeutic strategies to engage stem cells in regenerative medicine and to overcome treatment failure\nin cancer.",
+   "spending_categories_desc": "Genetics; Human Genome; Stem Cell Research; Stem Cell Research - Embryonic - Non-Human",
+   "agency_code": "NIH",
+   "covid_response": null,
+   "arra_funded": "N",
+   "budget_start": "2024-09-25T00:00:00",
+   "budget_end": "2027-08-31T00:00:00",
+   "cfda_code": "93.310",
+   "funding_mechanism": "Non-SBIR/STTR",
+   "direct_cost_amt": 900000,
+   "indirect_cost_amt": 607500,
+   "project_detail_url": "https://reporter.nih.gov/project-details/10909556",
+   "date_added": "2024-09-28T16:29:47",
+   "multiyear_award_flag": "Y"
+  },
+  {
+   "appl_id": 10931439,
+   "subproject_id": null,
+   "fiscal_year": 2024,
+   "project_num": "5UM1HG011593-05",
+   "project_serial_num": "HG011593",
+   "organization": {
+    "org_name": "CARNEGIE-MELLON UNIVERSITY",
+    "city": null,
+    "country": null,
+    "org_city": "PITTSBURGH",
+    "org_country": "UNITED STATES",
+    "org_state": "PA",
+    "org_state_name": null,
+    "dept_type": "BIOSTATISTICS & OTHER MATH SCI",
+    "fips_country_code": null,
+    "org_duns": [
+     "052184116"
+    ],
+    "org_ueis": [
+     "G4P3TF8PFH73",
+     " KZV2XNZZN3A8",
+     " MJ5BDF8KMQ43",
+     " U3NKNFLNQ613",
+     " U9C6D6YR7P69"
+    ],
+    "primary_duns": "052184116",
+    "primary_uei": "U3NKNFLNQ613",
+    "org_fips": "US",
+    "org_ipf_code": "247601",
+    "org_zipcode": "152133815",
+    "external_org_id": 247601
+   },
+   "award_type": "5",
+   "activity_code": "UM1",
+   "award_amount": 2075409,
+   "is_active": true,
+   "project_num_split": {
+    "appl_type_code": "5",
+    "activity_code": "UM1",
+    "ic_code": "HG",
+    "serial_num": "011593",
+    "support_year": "05",
+    "full_support_year": "05",
+    "suffix_code": ""
+   },
+   "principal_investigators": [
+    {
+     "profile_id": 9830331,
+     "first_name": "Frank",
+     "middle_name": "",
+     "last_name": "Alber",
+     "is_contact_pi": false,
+     "full_name": "Frank  Alber",
+     "title": ""
+    },
+    {
+     "profile_id": 1887730,
+     "first_name": "Andrew",
+     "middle_name": "Steven",
+     "last_name": "Belmont",
+     "is_contact_pi": false,
+     "full_name": "Andrew Steven Belmont",
+     "title": ""
+    },
+    {
+     "profile_id": 10363722,
+     "first_name": "JIAN",
+     "middle_name": "",
+     "last_name": "MA",
+     "is_contact_pi": true,
+     "full_name": "JIAN  MA",
+     "title": "RAY AND STEPHANIE LANE PROFESSOR"
+    },
+    {
+     "profile_id": 1964848,
+     "first_name": "CHAO-TING",
+     "middle_name": "",
+     "last_name": "WU",
+     "is_contact_pi": false,
+     "full_name": "CHAO-TING  WU",
+     "title": ""
+    }
+   ],
+   "contact_pi_name": "MA, JIAN ",
+   "program_officers": [
+    {
+     "first_name": "MICHAEL",
+     "middle_name": "J",
+     "last_name": "PAZIN",
+     "full_name": "MICHAEL J PAZIN"
+    }
+   ],
+   "agency_ic_admin": {
+    "code": "HG",
+    "abbreviation": "NHGRI",
+    "name": "National Human Genome Research Institute",
+    "admin_org_id": "12500074",
+    "admin_funding_url": ""
+   },
+   "agency_ic_fundings": [
+    {
+     "fy": 2024,
+     "code": "OD",
+     "name": "NIH Office of the Director",
+     "abbreviation": "OD",
+     "total_cost": 2075409.0,
+     "direct_cost_ic": 2705597.0,
+     "indirect_cost_ic": 273783.0
+    }
+   ],
+   "cong_dist": "PA-12",
+   "spending_categories": [
+    101,
+    4531,
+    276,
+    320,
+    4372,
+    329,
+    796,
+    797
+   ],
+   "project_start_date": "2020-09-22T00:00:00",
+   "project_end_date": "2027-06-30T00:00:00",
+   "organization_type": {
+    "name": "SCHOOLS OF ARTS AND SCIENCES",
+    "code": "10",
+    "is_other": false
+   },
+   "geo_lat_lon": {
+    "lon": -79.941084,
+    "lat": 40.442959
+   },
+   "opportunity_number": "RFA-RM-20-004",
+   "full_study_section": {
+    "srg_code": "ZRG1",
+    "srg_flex": null,
+    "sra_designator_code": "BST",
+    "sra_flex_code": "T",
+    "group_code": "50",
+    "name": "Special Emphasis Panel[ZRG1-BST-T(50)R]"
+   },
+   "award_notice_date": "2024-08-14T00:00:00",
+   "is_new": false,
+   "mechanism_code_dc": "RP",
+   "core_project_num": "UM1HG011593",
+   "terms": "<3-D Imaging><3D imaging><Address><Architecture><Basal Transcription Factor><Basal transcription factor genes><Binding><Biochemical><CUT&RUN><Cell Body><Cell Cycle><Cell Division Cycle><Cell Function><Cell Nucleus><Cell Physiology><Cell Process><Cells><Cellular Function><Cellular Physiology><Cellular Process><Chromatin><Chromatin Loop><Chromatin Loop Domains><Chromatin Structure><Chromosomal Organization><Chromosomal Structure><Chromosome Mapping><Chromosome Organization><Chromosome Structures><Chromosomes><Cleavage Targets and Release Using Nuclease><Cleavage Under Targets and Release Using Nuclease><Collaborations><Communities><Computational toolkit><Computing Methodologies><Cytology><DNA Loop><DNA Replication Timing><Data><Data Set><Development><Disease><Disorder><Engineering / Architecture><Formulation><Gene Expression><Gene Localization><Gene Mapping><Gene Mapping Genetics><Gene Transcription><General Transcription Factor Gene><General Transcription Factors><Genetic><Genetic Transcription><Genome><Genomics><Goals><Health><Human><Image><Interphase Chromosome><Intuition><Investigators><Knowledge><Link><Linkage Mapping><Maps><Measurement><Measures><Methods><Microscopy><Mission><Modality><Modeling><Modern Man><Molecular><Molecular Interaction><Multimodal Imaging><NIH><National Institutes of Health><Nuclear><Nuclear Lamina><Nuclear Structure><Nucleus><Organelles><Outcome><Output><PRO-seq><Phase><Population><Precision Run-On Sequencing><Precision nuclear run-on sequencing><Production><Public Health><RNA Expression><RNA Seq><RNA sequencing><RNAseq><Research><Research Personnel><Researchers><Resolution><Role><Structure><Subcellular Process><Technology><Temporal DNA Replication Order><Temporal DNA Replication Pattern><Three-Dimensional Imaging><Total Human and Non-Human Gene Mapping><Transcription><Transcription Factor Proto-Oncogene><Transcription factor genes><United States National Institutes of Health><Validation><Variant><Variation><Visualization><Work><cell fixing><cell type><computational framework><computational methodology><computational methods><computational toolbox><computational tools><computational toolset><computer based method><computer based prediction><computer framework><computer methods><computerized tools><computing method><data exploration><data integration><data tools><developmental><empowerment><entire genome><experiment><experimental research><experimental study><experiments><full genome><genetic mapping><genome scale><genome-wide><genomewide><genomic data><genomic data-set><genomic dataset><histone modification><image-based method><imaging><imaging method><imaging modality><improved><insight><interactive data visualization><interactive visualization><intuitive><machine learned algorithm><machine learning algorithm><machine learning based algorithm><multi-modal data><multi-modal datasets><multi-modal imaging><multi-modality><multi-modality imaging><multi-scale atlas><multi-scale data><multimodal data><multimodal datasets><multimodality><multimodality imaging><multiple data types><multiscale atlas><multiscale data><predictive modeling><resolutions><response><social role><spatiotemporal><superresolution microscopy><tool><transcription factor><transcriptome sequencing><transcriptomic sequencing><user-friendly><validations><whole genome>",
+   "pref_terms": "Address;Architecture;Binding;Biochemical;Cell Cycle;Cell Nucleus;Cell Physiology;Cells;Chromatin;Chromatin Loop;Chromatin Structure;Chromosome Mapping;Chromosome Structures;Chromosomes;Cleavage Under Targets and Release Using Nuclease;Collaborations;Communities;Computing Methodologies;Cytology;DNA Replication Timing;Data;Data Set;Development;Disease;Formulation;Gene Expression;Genetic;Genetic Transcription;Genome;Genomics;Goals;Health;Human;Image;Interphase Chromosome;Intuition;Knowledge;Link;Maps;Measurement;Measures;Methods;Microscopy;Mission;Modality;Modeling;Molecular;Multimodal Imaging;Nuclear;Nuclear Lamina;Nuclear Structure;Organelles;Outcome;Output;Phase;Population;Precision Run-On Sequencing;Production;Public Health;Research;Research Personnel;Resolution;Role;Structure;Technology;Three-Dimensional Imaging;United States National Institutes of Health;Validation;Variant;Visualization;Work;cell fixing;cell type;computer framework;computerized tools;data exploration;data integration;data tools;empowerment;experimental study;genome-wide;genomic data;histone modification;imaging modality;improved;insight;interactive visualization;machine learning algorithm;multi-scale atlas;multimodal data;multimodality;multiple data types;multiscale data;predictive modeling;response;spatiotemporal;superresolution microscopy;tool;transcription factor;transcriptome sequencing;user-friendly;whole genome",
+   "abstract_text": "PROJECT SUMMARY\nThe cell nucleus is a heterogeneous organelle that consists of nuclear bodies such as nuclear lamina,\nspeckles, nucleoli and PML bodies. These structures continuously tether and tug chromatin at the small and\nlarge scales to synergistically orchestrate dynamic functions in distinct spatio-temporal compartments. A major\nobstacle to the production of navigable 4D reference maps and relating structure to function in the nucleus\nremains understanding how these different scales of organization influence each other. In particular, we have a\npoor understanding of the large-scale genome organization. Growing evidence suggests that such nuclear\ncompartmentalization is causally connected with vital genome functions in human health and disease.\nHowever, the principles of this nuclear compartmentalization, its dynamics during changes in cell conditions,\nand its functional relevance are poorly understood. One lesson from Phase 1 4DN was the huge gap in\nthroughput between imaging methods, that directly measure large-scale multi-landmark relationships, and\ngenomic methods, that aim for whole genome high-resolution maps but are indirect measurements and provide\nlimited information about large-scale compartments. For this 4DN UM1 Center application, we propose to meet\nthese needs through the following Aims: (1) Generate multi-modal imaging and genomic datasets to reveal the\nstructure, dynamics, and function of nuclear compartmentalization; (2) Develop and apply computational tools\nfor data-driven genome structure modeling and integrative analysis of nuclear compartmentalization; (3)\nDevelop an integrative analysis and visualization platform with navigable 4D reference maps of nuclear\norganization. The combined datasets and results of our proposed approaches will advance our understanding\nof nuclear compartmentalization, the interwoven connections among different nuclear components, and their\nfunctional significance. Our new integrative analysis tools and data-driven predictive models will produce more\ncomplete nuclear organization reference maps that integrate large-scale chromosome structure data from live\nand super-resolution microscopy with multi-modal genomic data including smaller scale chromatin interaction\nmaps and predict functional relationships and dynamic responses. Our navigable reference maps will be\npublicly accessible through an analysis platform that provides interactive visualization of multiple data types,\nthus enabling investigators with diverse expertise to simultaneously explore their own data and related\ndatasets/tools and promoting collaborations that will open new horizons into the role of the 4D nucleome in\nhuman health and disease.",
+   "project_title": "Multiscale Analyses of 4D Nucleome Structure and Function by Comprehensive Multimodal Data Integration",
+   "phr_text": "PROJECT NARRATIVE\nThe proposed research is relevant to public health because it will enhance our understanding of nuclear\ngenome organization and functions that are increasingly being linked to health and disease. Because we\ndevelop tools to disseminate this information and enable others to work with our data and their own data, we\nwill also bring nuclear architecture to bear on a broad range of ongoing health related research. Thus, the\nproposed research is relevant to NIH\u2019s mission that seeks to obtain fundamental knowledge that will help to\nimprove human health.",
+   "spending_categories_desc": "Bioengineering; Data Science; Genetics; Human Genome; Machine Learning and Artificial Intelligence; Networking and Information Technology R&D (NITRD); Stem Cell Research; Stem Cell Research - Embryonic - Human",
+   "agency_code": "NIH",
+   "covid_response": null,
+   "arra_funded": "N",
+   "budget_start": "2024-07-01T00:00:00",
+   "budget_end": "2027-06-30T00:00:00",
+   "cfda_code": "93.310",
+   "funding_mechanism": "Non-SBIR/STTR",
+   "direct_cost_amt": 2705597,
+   "indirect_cost_amt": 273783,
+   "project_detail_url": "https://reporter.nih.gov/project-details/10931439",
+   "date_added": "2024-08-17T16:31:08",
+   "multiyear_award_flag": null
+  }
+ ]
+}

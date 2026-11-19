@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nih-reporter-retriever"
+version = "0.1.0"
+description = "Build program officer / funding opportunity grant portfolios from the NIH RePORTER API."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Jake Lehle" }]
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8",
+    "pandas>=2",
+    "pyyaml>=6",
+    "requests>=2.28",
+    "snakemake>=8",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+nih-reporter = "nih_reporter.cli:main"
+
+[tool.setuptools]
+packages = ["nih_reporter"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

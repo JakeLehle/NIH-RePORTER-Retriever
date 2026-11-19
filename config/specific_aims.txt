@@ -1,0 +1,7 @@
+Example Specific Aims text for Matchmaker. Replace with your own aims page (plain text, up to 15,000 characters).
+
+Most genetic variants associated with common disease lie in noncoding regions and are thought to act by altering enhancer activity, but the variants, enhancers and target genes responsible remain largely unknown. We will combine massively parallel reporter assays with CRISPR interference and base-editing screens to measure the effects of thousands of noncoding variants on enhancer activity and gene expression in human iPSC-derived cell types.
+
+Aim 1. Measure the regulatory effects of disease-associated noncoding variants at scale using massively parallel reporter assays across differentiating human cell types.
+Aim 2. Link functional variants to their target genes with single-cell CRISPR perturbation screens.
+Aim 3. Train and validate predictive models of variant effects on gene regulation, and release the data and models as a community resource.

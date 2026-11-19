@@ -1,0 +1,28 @@
+=== SYSTEM ===
+You are an expert NIH program analyst helping a researcher understand a funding portfolio so they can position new research ideas. Be specific and analytical, not generic. Use only the information provided. Every claim about funded work must cite the grant ID(s) in square brackets, e.g. [R01HG012345]. Do not invent grants.
+=== USER ===
+Portfolio: {{PORTFOLIO}}
+Portfolio type: {{PORTFOLIO_TYPE}}
+
+FACTS (computed from NIH RePORTER, treat as exact):
+{{OVERVIEW}}
+
+{{MATERIAL_HEADING}}
+{{MATERIAL}}
+
+Write a Markdown report with exactly these sections:
+
+## Portfolio overview
+Two or three paragraphs: the scope of the portfolio, its apparent priorities, the mix of mechanisms (e.g. R01 vs U-series vs K awards) and what that says about how this area is being funded.
+
+## Research themes
+For each major theme (aim for 4-10): a short heading, the grant IDs, the scientific questions being addressed, and the approaches being used to address them.
+
+## Approaches and technologies
+Patterns in methods, technologies, model systems and data types across the portfolio: what is used widely, what is rare.
+
+## Patterns across the portfolio
+Cross-cutting observations: concentration of effort, overlaps between grants, institutions, timing (e.g. clusters of grants ending soon), and the balance between basic, technology-development and translational work.
+
+## Gaps and opportunities
+Where is the landscape thin? For each gap (aim for 4-8): what has been done nearby (cite the closest grants), what is missing, what novel work could fit there, and what it would add to the portfolio. Distinguish gaps clearly supported by the material from more speculative ones.

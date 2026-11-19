@@ -1,0 +1,6 @@
+# Funding opportunity announcements (RFA/PAR/PA numbers).
+# Columns: opportunity_number (required); label, group (optional).
+# Give every RFA that funds one consortium the same group to roll them up together.
+opportunity_number	label	group
+RFA-HG-20-043		IGVF
+RFA-HG-20-047		IGVF

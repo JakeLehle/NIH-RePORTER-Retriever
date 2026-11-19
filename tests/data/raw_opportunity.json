@@ -1,0 +1,435 @@
+{
+ "query": {
+  "query_id": "opp_rfa_hg_20_047",
+  "query_type": "opportunity",
+  "value": "RFA-HG-20-047",
+  "label": "RFA-HG-20-047",
+  "group": "IGVF",
+  "criteria": {
+   "include_active_projects": true,
+   "foa": [
+    "RFA-HG-20-047"
+   ]
+  }
+ },
+ "retrieved_at": "2026-11-19T15:32:58+00:00",
+ "search_id": "LanxqNtEC0OnzMhdmQ1ddw",
+ "reporter_url": "https://reporter.nih.gov/search/LanxqNtEC0OnzMhdmQ1ddw/projects",
+ "total": 7,
+ "results": [
+  {
+   "appl_id": 11093562,
+   "subproject_id": null,
+   "fiscal_year": 2025,
+   "project_num": "5U01HG012022-05",
+   "project_serial_num": "HG012022",
+   "organization": {
+    "org_name": "NORTHEASTERN UNIVERSITY",
+    "city": null,
+    "country": null,
+    "org_city": "BOSTON",
+    "org_country": "UNITED STATES",
+    "org_state": "MA",
+    "org_state_name": null,
+    "dept_type": "CHEMISTRY",
+    "fips_country_code": null,
+    "org_duns": [
+     "001423631"
+    ],
+    "org_ueis": [
+     "HLTMVS2JZBS6"
+    ],
+    "primary_duns": "001423631",
+    "primary_uei": "HLTMVS2JZBS6",
+    "org_fips": "US",
+    "org_ipf_code": "6116101",
+    "org_zipcode": "021155005",
+    "external_org_id": 6116101
+   },
+   "award_type": "5",
+   "activity_code": "U01",
+   "award_amount": 622328,
+   "is_active": true,
+   "project_num_split": {
+    "appl_type_code": "5",
+    "activity_code": "U01",
+    "ic_code": "HG",
+    "serial_num": "012022",
+    "support_year": "05",
+    "full_support_year": "05",
+    "suffix_code": ""
+   },
+   "principal_investigators": [
+    {
+     "profile_id": 8702983,
+     "first_name": "Predrag",
+     "middle_name": "",
+     "last_name": "Radivojac",
+     "is_contact_pi": true,
+     "full_name": "Predrag  Radivojac",
+     "title": "PROFESSOR"
+    }
+   ],
+   "contact_pi_name": "RADIVOJAC, PREDRAG ",
+   "program_officers": [
+    {
+     "first_name": "DANIEL",
+     "middle_name": "A",
+     "last_name": "GILCHRIST",
+     "full_name": "DANIEL A GILCHRIST"
+    }
+   ],
+   "agency_ic_admin": {
+    "code": "HG",
+    "abbreviation": "NHGRI",
+    "name": "National Human Genome Research Institute",
+    "admin_org_id": "12500074",
+    "admin_funding_url": ""
+   },
+   "agency_ic_fundings": [
+    {
+     "fy": 2025,
+     "code": "HG",
+     "name": "National Human Genome Research Institute",
+     "abbreviation": "NHGRI",
+     "total_cost": 622328.0,
+     "direct_cost_ic": 762536.0,
+     "indirect_cost_ic": 150726.0
+    }
+   ],
+   "cong_dist": "MA-07",
+   "spending_categories": [
+    101,
+    108,
+    4531,
+    276,
+    320,
+    4372,
+    329
+   ],
+   "project_start_date": "2021-09-01T00:00:00",
+   "project_end_date": "2027-05-31T00:00:00",
+   "organization_type": {
+    "name": "SCHOOLS OF ARTS AND SCIENCES",
+    "code": "10",
+    "is_other": false
+   },
+   "geo_lat_lon": {
+    "lon": -71.088892,
+    "lat": 42.340048
+   },
+   "opportunity_number": "RFA-HG-20-047",
+   "full_study_section": {
+    "srg_code": "ZHG1",
+    "srg_flex": null,
+    "sra_designator_code": "HGR",
+    "sra_flex_code": "M",
+    "group_code": "M3",
+    "name": "ZHG1-HGR-M(M3)"
+   },
+   "award_notice_date": "2025-09-18T00:00:00",
+   "is_new": false,
+   "mechanism_code_dc": "RP",
+   "core_project_num": "U01HG012022",
+   "terms": "<Active Learning><Address><Adopted><Area><Assay><Bioassay><Biochemical><Biologic Models><Biological><Biological Assay><Biological Function><Biological Models><Biological Process><Biology><Biotech><Biotechnology><Body Tissues><California><Clinical><Clinical assessments><Clinical genetics><Communities><Complex><Computer Models><Computerized Models><Cooperative Learning><DNA Molecular Biology><DNA mutation><Data><Data Collection><Data Set><Disease><Disorder><Environment><Evaluation><Experiential Learning><Experimental Designs><Gene variant><Genes><Genetic Change><Genetic Models><Genetic defect><Genetic mutation><Genome><Genomic Segment><Genomic medicine><Genomics><Goals><Health system><Human><Human Genome><Internet><Investigators><Knowledge><Leadership><Learning><Link><Machine Learning><Macromolecular Structure><Measures><Medical Genetics><Medicine><Mendelian disease><Mendelian disorder><Mendelian genetic disorder><Methodology><Methods><Mission><Model System><Modeling><Modern Man><Modernization><Molecular><Molecular Biology><Molecular Configuration><Molecular Conformation><Molecular Modeling Nucleic Acid Biochemistry><Molecular Modeling Protein/Amino Acid Biochemistry><Molecular Models><Molecular Stereochemistry><Molecular Structure><Mutation><Nature><Outcome><Output><Paper><Pathogenicity><Pharmacogenetics><Phenotype><Position><Positioning Attribute><Probabilistic Models><Probability Models><Publishing><RNA Splicing><Regulation><Research><Research Personnel><Research Resources><Researchers><Resource Allocation><Resources><Risk><Site><Splicing><Statistical Models><System><Technology><Tissues><Training><Transcriptional Control><Transcriptional Regulation><Universities><Validation><Variant><Variation><WWW><Washington><Work><active method><active technique><active treatment><allelic variant><assay development><biologic><biological systems><clinical care><clinical implementation><computational modeling><computational models><computer based models><computer based prediction><computerized modeling><conformation><conformational><conformational state><conformationally><conformations><cost><data diversity><design><designing><diverse data><exome sequencing><exome-seq><experiment><experimental research><experimental study><experiments><functional genomics><genetic variant><genome medicine><genome mutation><genome segment><genome sequencing><genomic region><genomic variant><genomic variation><human disease><human whole genome><improved><innovate><innovation><innovative><insight><interest><machine based learning><machine learning based method><machine learning method><machine learning methodologies><method development><model development><model developments><model organism><molecular modeling><monogenic disease><monogenic disorder><mutation scanning><mutation screening><next generation><novel><predictive modeling><predictive tools><protein structure><protein structures><proteins structure><single-gene disease><single-gene disorder><statistical linear mixed models><statistical linear models><supervised learning><supervised machine learning><tool><trait><validations><web><world wide web>",
+   "pref_terms": "Active Learning;Address;Adopted;Area;Biochemical;Biological;Biological Assay;Biological Models;Biological Process;Biology;Biotechnology;California;Clinical;Clinical assessments;Communities;Complex;Computer Models;Data;Data Collection;Data Set;Disease;Environment;Evaluation;Experimental Designs;Genes;Genetic Models;Genome;Genomic Segment;Genomic medicine;Genomics;Goals;Health system;Human;Human Genome;Internet;Knowledge;Leadership;Learning;Link;Machine Learning;Measures;Medical Genetics;Medicine;Mendelian disorder;Methodology;Methods;Mission;Modeling;Modernization;Molecular;Molecular Biology;Molecular Conformation;Molecular Structure;Mutation;Nature;Outcome;Output;Paper;Pathogenicity;Pharmacogenetics;Phenotype;Positioning Attribute;Publishing;RNA Splicing;Regulation;Research;Research Personnel;Resource Allocation;Resources;Risk;Site;Statistical Models;System;Technology;Tissues;Training;Transcriptional Regulation;Universities;Validation;Variant;Washington;Work;active method;assay development;biological systems;clinical care;clinical implementation;cost;design;diverse data;exome sequencing;experimental study;functional genomics;genetic variant;genome sequencing;genomic variation;human disease;improved;innovation;insight;interest;machine learning method;method development;model development;model organism;molecular modeling;mutation screening;next generation;novel;predictive modeling;predictive tools;protein structure;supervised learning;tool;trait",
+   "abstract_text": "PROJECT SUMMARY\nLeveraging the power of the human genome to understand the risks, causes, and treatments of human dis-\nease remains a grand challenge for all of biology and medicine. While sequencing costs have plummeted, and\nclinical implementation has become commonplace, interpreting human genomes remains a highly challenging\ntask. It is our hypothesis that understanding the function of the genome and its products at a molecular, tissue,\nand phenotypic level using advanced machine learning will help unlock the door to better interpretation for sci-\nentific discovery and better clinical outcomes based on genomic medicine. To that end, our team has spent\nthe past two decades working to develop computational models of biology, to predict how those models are\nperturbed through changes in the genome, and to use those perturbations to model phenotype and disease.\nWe have had many research outputs in this area, having developed and published a number of widely used\nmethods that predict biochemical and phenotypic changes caused by genetic variants to infer phenotype and\npathogenicity. However, we believe that there is a coming convergence between the variability in clinical inter-\npretation, high-throughput biotechnology assays, and modern machine learning methodology that will result in\nmore accurate clinical assessments and improved clinical care. Therefore, in this ambitious proposal, we are\naddressing important questions in variant and genome interpretation consistent with this view and the mission\nof the IGVF Consortium. Our major goals include (1) developing advanced semi-supervised approaches to\npredict variants that disrupt molecular function and/or are capable of altering phenotypes; (2) identifying in-\nformative assays, variants, and genes to automate experimental design with an emphasis on resource alloca-\ntion and reduction of ascertainment bias in the Consortium; and (3) developing machine learning approaches\nto integrate these models into a workflow of the IGVF Consortium and enable the interaction between compu-\ntation and experiment in order to catalyze advances in both genetic variant interpretation and predictive model\ndevelopment.",
+   "project_title": "Supporting IGVF by modeling genetics, function, and phenotype with machine learning",
+   "phr_text": "PROJECT NARRATIVE\nWe are developing advanced machine learning approaches and tools for understanding the link between mo-\nlecular function and phenotype and to guide experimental data collection within the IGVF Consortium. These\ntools will assist in determining whether and how the observed differences on a human genome give rise to a\nrisk of a disease or other condition of clinical interest. Our methods are distributable on the internet and will be\nmade widely available.",
+   "spending_categories_desc": "Bioengineering; Biotechnology; Data Science; Genetics; Human Genome; Machine Learning and Artificial Intelligence; Networking and Information Technology R&D (NITRD)",
+   "agency_code": "NIH",
+   "covid_response": null,
+   "arra_funded": "N",
+   "budget_start": "2025-06-01T00:00:00",
+   "budget_end": "2027-05-31T00:00:00",
+   "cfda_code": "93.172",
+   "funding_mechanism": "Non-SBIR/STTR",
+   "direct_cost_amt": 762536,
+   "indirect_cost_amt": 150726,
+   "project_detail_url": "https://reporter.nih.gov/project-details/11093562",
+   "date_added": "2025-09-20T17:03:49",
+   "multiyear_award_flag": null
+  },
+  {
+   "appl_id": 11094020,
+   "subproject_id": null,
+   "fiscal_year": 2025,
+   "project_num": "5U01HG011952-05",
+   "project_serial_num": "HG011952",
+   "organization": {
+    "org_name": "UNIVERSITY OF MICHIGAN AT ANN ARBOR",
+    "city": null,
+    "country": null,
+    "org_city": "ANN ARBOR",
+    "org_country": "UNITED STATES",
+    "org_state": "MI",
+    "org_state_name": null,
+    "dept_type": "BIOSTATISTICS & OTHER MATH SCI",
+    "fips_country_code": null,
+    "org_duns": [
+     "073133571"
+    ],
+    "org_ueis": [
+     "GNJ7BBP73WE9"
+    ],
+    "primary_duns": "073133571",
+    "primary_uei": "GNJ7BBP73WE9",
+    "org_fips": "US",
+    "org_ipf_code": "1506502",
+    "org_zipcode": "481081364",
+    "external_org_id": 1506502
+   },
+   "award_type": "5",
+   "activity_code": "U01",
+   "award_amount": 696683,
+   "is_active": true,
+   "project_num_split": {
+    "appl_type_code": "5",
+    "activity_code": "U01",
+    "ic_code": "HG",
+    "serial_num": "011952",
+    "support_year": "05",
+    "full_support_year": "05",
+    "suffix_code": ""
+   },
+   "principal_investigators": [
+    {
+     "profile_id": 10753790,
+     "first_name": "Alan",
+     "middle_name": "P",
+     "last_name": "Boyle",
+     "is_contact_pi": true,
+     "full_name": "Alan P Boyle",
+     "title": "PROFESSOR"
+    }
+   ],
+   "contact_pi_name": "BOYLE, ALAN P",
+   "program_officers": [
+    {
+     "first_name": "DANIEL",
+     "middle_name": "A",
+     "last_name": "GILCHRIST",
+     "full_name": "DANIEL A GILCHRIST"
+    }
+   ],
+   "agency_ic_admin": {
+    "code": "HG",
+    "abbreviation": "NHGRI",
+    "name": "National Human Genome Research Institute",
+    "admin_org_id": "12500074",
+    "admin_funding_url": ""
+   },
+   "agency_ic_fundings": [
+    {
+     "fy": 2025,
+     "code": "HG",
+     "name": "National Human Genome Research Institute",
+     "abbreviation": "NHGRI",
+     "total_cost": 696683.0,
+     "direct_cost_ic": 450588.0,
+     "indirect_cost_ic": 246095.0
+    }
+   ],
+   "cong_dist": "MI-06",
+   "spending_categories": [
+    101,
+    276,
+    320
+   ],
+   "project_start_date": "2021-08-24T00:00:00",
+   "project_end_date": "2027-05-31T00:00:00",
+   "organization_type": {
+    "name": "SCHOOLS OF MEDICINE",
+    "code": "10",
+    "is_other": false
+   },
+   "geo_lat_lon": {
+    "lon": -83.743038,
+    "lat": 42.275494
+   },
+   "opportunity_number": "RFA-HG-20-047",
+   "full_study_section": {
+    "srg_code": "ZHG1",
+    "srg_flex": null,
+    "sra_designator_code": "HGR",
+    "sra_flex_code": "M",
+    "group_code": "M3",
+    "name": "ZHG1-HGR-M(M3)"
+   },
+   "award_notice_date": "2025-07-18T00:00:00",
+   "is_new": false,
+   "mechanism_code_dc": "RP",
+   "core_project_num": "U01HG011952",
+   "terms": "<21+ years old><Adult><Adult Human><Affect><Algorithms><Atlases><Automobile Driving><Basal Transcription Factor><Basal transcription factor genes><Binding><Biological><CRISPR><CRISPR/Cas system><Cell Body><Cells><Chromatin><Chromatin Structure><Clustered Regularly Interspaced Short Palindromic Repeats><Computing Methodologies><Coupled><DNA Sequence><Data><Data Analyses><Data Analysis><Data Collection><Data Set><Disease><Disorder><Elements><Exercise><Experimental Designs><Functional RNA><GTEx><Gene Expression><Gene variant><General Transcription Factor Gene><General Transcription Factors><Genes><Genetic Diversity><Genetic Variation><Genomic medicine><Genotype><Genotype-Tissue Expression Project><Germ Lines><Goals><Human Figure><Human body><Individual><Investigators><Knock-out><Knockout><Link><Maps><Measurement><Methods><Modality><Modeling><Molecular><Molecular Interaction><Noncoding RNA><Nontranslated RNA><Normal Cell><Organism><Phenotype><Population><Protocol><Protocols documentation><Publishing><Regulatory Element><Research Personnel><Research Resources><Researchers><Resolution><Resources><Side><Specificity><Structure><Survey Instrument><Surveys><Transcription Factor Proto-Oncogene><Transcription factor genes><Untranslated RNA><Validation><Variant><Variation><adulthood><allelic variant><biologic><cell type><computational methodology><computational methods><computer based method><computer based prediction><computer methods><computing method><data dissemination><data interpretation><data modalities><disease phenotype><driving><epigenome><epigenomics><experiment><experimental research><experimental study><experiments><generative models><genetic variant><genome medicine><genomic variant><genomic variation><global gene expression><global transcription profile><graph attention network><graph convolutional network><graph neural network><human tissue><living system><meeting><meetings><model building><noncoding><novel><predictive modeling><resolutions><scRNA sequencing><scRNA-seq><single cell RNA-seq><single cell RNAseq><single cell expression profiling><single cell technology><single cell transcriptomic profiling><single-cell RNA sequencing><statistical learning><tool><transcription factor><transcriptome><transcriptomics><validations><work group><working group>",
+   "pref_terms": "Adult;Affect;Algorithms;Atlases;Automobile Driving;Binding;Biological;Cells;Chromatin;Chromatin Structure;Clustered Regularly Interspaced Short Palindromic Repeats;Computing Methodologies;Coupled;DNA Sequence;Data;Data Analyses;Data Collection;Data Set;Disease;Elements;Exercise;Experimental Designs;Gene Expression;Genes;Genetic Variation;Genomic medicine;Genotype;Genotype-Tissue Expression Project;Germ Lines;Goals;Human body;Individual;Knock-out;Link;Maps;Measurement;Methods;Modality;Modeling;Molecular;Normal Cell;Organism;Phenotype;Population;Protocols documentation;Publishing;Regulatory Element;Research Personnel;Resolution;Resources;Side;Specificity;Structure;Surveys;Untranslated RNA;Validation;Variant;cell type;data dissemination;data modalities;disease phenotype;epigenome;epigenomics;experimental study;generative models;genetic variant;genomic variation;graph neural network;human tissue;meetings;model building;novel;predictive modeling;single cell technology;single-cell RNA sequencing;statistical learning;tool;transcription factor;transcriptome;transcriptomics;working group",
+   "abstract_text": "Project Summary\nLinking genotype to phenotype by predicting the functional effects of genomic variation is crucial to realizing the\npotential of genomic medicine. Over the past two decades, consortium efforts have characterized common and\nrare population-scale genetic variation and functional gene regulatory elements across cell types. More recently,\nsingle-cell technologies have enabled organism-scale surveys of molecular cell states. The availability of these\nthree data types means that the goal of general models to predict the effects of variants is finally within reach.\nCurrently, integrating these diverse biological data sets to build predictive models is difficult. While resources\nsuch as RegulomeDB help researchers annotate variants with putative regulatory function, they often lack cell\ntype specificity and predict variant function in a general sense. Similarly, GTEx effectively links specific variants\nto changes in gene expression, but these variants are primarily SNPs, and the predicted effects are mostly\npairwise interactions. Furthermore, previous efforts rely primarily on bulk measurements, with limited exploration\nof the impact of genomic variation at the single-cell level. We propose quantitative shifts in cellular state as a\nnew paradigm for defining and predicting variant function. Single-cell transcriptomic and epigenomic data from\nhealthy individuals provide a reference atlas of cell states. By comparing cell state distributions against this\nreference, we can identify quantitative shifts resulting from genetic variation and explore these deviations as\npotential disease states. We will then build models to predict shifts in cell state by combining single-cell data with\nbackground germline genetic variation, chromatin structure, and supporting functional data.",
+   "project_title": "Predicting the Impact of Genomic Variation on Cellular States",
+   "phr_text": "Project Narrative\nThe goal of this project is to develop novel computational methods to predict the impact of multiple changes in\nDNA sequence on overall cellular state and help IGVF consortium data collection and analysis strategies.\nUltimately, we will generate an atlas of not only individual genetic variants to phenotype associations but, more\nimportantly, entire genotype to phenotype predictions. These efforts represent crucial steps toward enabling\ngenomic medicine by comprehensively linking genotype with cellular phenotype.",
+   "spending_categories_desc": "Bioengineering; Genetics; Human Genome",
+   "agency_code": "NIH",
+   "covid_response": null,
+   "arra_funded": "N",
+   "budget_start": "2025-06-01T00:00:00",
+   "budget_end": "2027-05-31T00:00:00",
+   "cfda_code": "93.172",
+   "funding_mechanism": "Non-SBIR/STTR",
+   "direct_cost_amt": 450588,
+   "indirect_cost_amt": 246095,
+   "project_detail_url": "https://reporter.nih.gov/project-details/11094020",
+   "date_added": "2025-07-26T16:13:28",
+   "multiyear_award_flag": null
+  },
+  {
+   "appl_id": 11100007,
+   "subproject_id": null,
+   "fiscal_year": 2025,
+   "project_num": "5U01HG012064-05",
+   "project_serial_num": "HG012064",
+   "organization": {
+    "org_name": "UNIV OF MASSACHUSETTS MED SCH WORCESTER",
+    "city": null,
+    "country": null,
+    "org_city": "WORCESTER",
+    "org_country": "UNITED STATES",
+    "org_state": "MA",
+    "org_state_name": null,
+    "dept_type": "BIOSTATISTICS & OTHER MATH SCI",
+    "fips_country_code": null,
+    "org_duns": [
+     "603847393"
+    ],
+    "org_ueis": [
+     "MQE2JHHJW9Q8"
+    ],
+    "primary_duns": "603847393",
+    "primary_uei": "MQE2JHHJW9Q8",
+    "org_fips": "US",
+    "org_ipf_code": "850903",
+    "org_zipcode": "016550002",
+    "external_org_id": 850903
+   },
+   "award_type": "5",
+   "activity_code": "U01",
+   "award_amount": 737340,
+   "is_active": true,
+   "project_num_split": {
+    "appl_type_code": "5",
+    "activity_code": "U01",
+    "ic_code": "HG",
+    "serial_num": "012064",
+    "support_year": "05",
+    "full_support_year": "05",
+    "suffix_code": ""
+   },
+   "principal_investigators": [
+    {
+     "profile_id": 9883268,
+     "first_name": "Manuel",
+     "middle_name": "",
+     "last_name": "Garber",
+     "is_contact_pi": false,
+     "full_name": "Manuel  Garber",
+     "title": "ASSOCIATE PROFESOR"
+    },
+    {
+     "profile_id": 7043086,
+     "first_name": "XIHONG",
+     "middle_name": "",
+     "last_name": "LIN",
+     "is_contact_pi": false,
+     "full_name": "XIHONG  LIN",
+     "title": ""
+    },
+    {
+     "profile_id": 2460777,
+     "first_name": "Zhiping",
+     "middle_name": "",
+     "last_name": "Weng",
+     "is_contact_pi": true,
+     "full_name": "Zhiping  Weng",
+     "title": "PROFESSOR AND DIRECTOR"
+    }
+   ],
+   "contact_pi_name": "WENG, ZHIPING ",
+   "program_officers": [
+    {
+     "first_name": "DANIEL",
+     "middle_name": "A",
+     "last_name": "GILCHRIST",
+     "full_name": "DANIEL A GILCHRIST"
+    }
+   ],
+   "agency_ic_admin": {
+    "code": "HG",
+    "abbreviation": "NHGRI",
+    "name": "National Human Genome Research Institute",
+    "admin_org_id": "12500074",
+    "admin_funding_url": ""
+   },
+   "agency_ic_fundings": [
+    {
+     "fy": 2025,
+     "code": "HG",
+     "name": "National Human Genome Research Institute",
+     "abbreviation": "NHGRI",
+     "total_cost": 737340.0,
+     "direct_cost_ic": 539346.0,
+     "indirect_cost_ic": 197994.0
+    }
+   ],
+   "cong_dist": "MA-02",
+   "spending_categories": [
+    101,
+    108,
+    276,
+    320,
+    4372,
+    329,
+    3070,
+    701
+   ],
+   "project_start_date": "2021-08-20T00:00:00",
+   "project_end_date": "2027-05-31T00:00:00",
+   "organization_type": {
+    "name": "SCHOOLS OF MEDICINE",
+    "code": "10",
+    "is_other": false
+   },
+   "geo_lat_lon": {
+    "lon": -71.758245,
+    "lat": 42.2802
+   },
+   "opportunity_number": "RFA-HG-20-047",
+   "full_study_section": {
+    "srg_code": "ZHG1",
+    "srg_flex": null,
+    "sra_designator_code": "HGR",
+    "sra_flex_code": "M",
+    "group_code": "M3",
+    "name": "ZHG1-HGR-M(M3)"
+   },
+   "award_notice_date": "2025-09-04T00:00:00",
+   "is_new": false,
+   "mechanism_code_dc": "RP",
+   "core_project_num": "U01HG012064",
+   "terms": "<3-D><3-Dimensional><3D><Algorithms><Assay><Base Pairing><Bioassay><Biological Assay><Body Tissues><Catalogs><Cell Body><Cells><Cellular Expansion><Cellular Growth><Chromatin><Classification><Cloud Computing><Cloud Infrastructure><Collaborations><Collection><Communities><Computer Models><Computerized Models><Computing Methodologies><Data><Data Analyses><Data Analysis><Data Bases><Data Commons><Data Set><Databases><Disease><Disorder><Elements><Environment><Functional RNA><GWA study><GWAS><Gene Expression><Gene variant><Genes><Genomics><Human><Human Genome><Immune><Immunes><Investigators><Joints><Knowledge><Learning><Link><Maps><Mediating><Mental disorders><Mental health disorders><Metabolic><Methods><Modeling><Modern Man><Molecular Configuration><Molecular Conformation><Molecular Stereochemistry><NHGRI><NHLBI><National Center for Human Genome Research><National Heart, Lung, and Blood Institute><National Human Genome Research Institute><Non-Polyadenylated RNA><Noncoding RNA><Nontranslated RNA><Nuclear Structure><Phenotype><Physiologic><Physiological><Population><Population Heterogeneity><Position><Positioning Attribute><Preventive Medicine><Psychiatric Disease><Psychiatric Disorder><RNA><RNA Gene Products><Records><Regulatory Element><Research Personnel><Researchers><Resolution><Ribonucleic Acid><Role><Science><Scientist><Source><Statistical Methods><Stimulus><Systematics><TOPMed><Targeted Research><Testing><Tissues><Trans-Omics for Precision Medicine><Untranslated RNA><Variant><Variation><Veterans><Visualization software><Work><advanced analytics><allelic variant><analytical method><biobank><biorepository><candidate identification><catalog><catalyst><causal allele><causal gene><causal mutation><causal variant><causative mutation><causative variant><cell growth><cell type><cloud based><cloud based computing><cloud computer><computational methodology><computational methods><computational modeling><computational models><computer based method><computer based models><computer based prediction><computer methods><computerized modeling><computing method><conformation><conformational><conformational state><conformationally><conformations><data base><data interpretation><design><designing><diverse populations><entire genome><feature selection><full genome><genetic variant><genome sequencing><genome wide association><genome wide association scan><genome wide association study><genomewide association scan><genomewide association study><genomic variant><genomic variation><global gene expression><global transcription profile><heterogeneous population><human disease><human whole genome><improved><innovate><innovation><innovative><internet portal><low-frequency mutation><machine learning based method><machine learning based model><machine learning method><machine learning methodologies><machine learning model><member><mental illness><molecular phenotype><multi-ethnic><multiethnic><noncoding><novel><on-line portal><online portal><population diversity><predictive modeling><preventative medicine><programs><psychiatric illness><psychological disorder><rare allele><rare mutation><rare variant><resolutions><response><social role><spatial and temporal><spatial temporal><spatiotemporal><statistic methods><statistical learning><three dimensional><tool><trait><transcriptome><variant of interest><visualization tool><web portal><web-based portal><whole genome><whole genome association analysis><whole genome association study>",
+   "pref_terms": "3-Dimensional;Algorithms;Base Pairing;Biological Assay;Catalogs;Cells;Chromatin;Classification;Cloud Computing;Collaborations;Collection;Communities;Computer Models;Computing Methodologies;Data;Data Analyses;Data Commons;Data Set;Databases;Disease;Elements;Environment;Gene Expression;Genes;Genomics;Human;Human Genome;Immune;Joints;Knowledge;Learning;Link;Maps;Mediating;Mental disorders;Metabolic;Methods;Modeling;Molecular Conformation;National Heart, Lung, and Blood Institute;National Human Genome Research Institute;Nuclear Structure;Phenotype;Physiological;Population;Population Heterogeneity;Positioning Attribute;Preventive Medicine;RNA;Records;Regulatory Element;Research Personnel;Resolution;Role;Science;Scientist;Source;Statistical Methods;Stimulus;Targeted Research;Testing;Tissues;Trans-Omics for Precision Medicine;Untranslated RNA;Variant;Veterans;Visualization software;Work;advanced analytics;analytical method;biobank;candidate identification;catalyst;causal variant;cell growth;cell type;cloud based;design;feature selection;genetic variant;genome sequencing;genome wide association study;genomic variation;human disease;improved;innovation;machine learning method;machine learning model;member;molecular phenotype;multi-ethnic;novel;predictive modeling;programs;rare variant;response;spatiotemporal;statistical learning;tool;trait;transcriptome;variant of interest;web portal;whole genome",
+   "abstract_text": "PROJECT SUMMARY\nGenome-wide association studies (GWAS) have associated tens of thousands of common variants with human\ndiseases and traits. The rapid expansion of Whole-Genome Sequencing (WGS) studies and biobanks offer\ngreat potential to understand the physiologic and pathophysiologic associations of both common and rare\nvariants. The IGVF Consortium aims to systematically study the functional and phenotypic effects of genomic\nvariation; it is not, however, feasible to experimentally characterize the vast number of candidate variants of\ninterest. Computational models which can accurately predict the context-specific effects of variants are\nessential in designing targeted research. We propose an approach anchored on a framework of\nhigh-confidence regulatory elements (REs), from which we will develop methods to learn RE-gene links,\nperform rare variant association tests, and finemap causal common and rare variants. We aim to make all our\nresults, methods, and tools available to the community through a public portal and the NHGRI and NHLBI Data\nCommons. Our proposal has four aims: (1) Develop a core framework of REs from open chromatin regions on\nwhich to anchor our models, improving on past approaches by producing higher-resolution predictions of\nfunctional base-pairs, producing novel RE subclassifications using functional characterization datasets from\nIGVF and other sources, and harnessing single-cell datasets to delineate lineage- and stimulus-specific\nelements. (2) Use this framework to predict the roles of variants in molecular phenotypes, specifically gene\nexpression and cellular response to stimuli. We will build statistical and machine-learning methods to predict\ncontext-specific links between REs and their target genes, using three-dimensional conformation data\nproduced by the IGVF Consortium and external sources. We will apply this method across many cell types and\nperform feature selection to build a catalog of high-confidence RE-gene links and regulatory networks. (3)\nDevelop statistical methods to perform cell type-specific rare variant association tests (cellSTAAR) in WGS\nstudies, and a latent variable model to prioritize candidate functional variants for traits and diseases, using\nresults from Aims 1 and 2. We will apply these methods to analyze various metabolic, immune-mediated, and\npsychiatric disorders in the multi-ethnic WGS data of the NHLBI Trans-Omic Precision Medicine Program\n(TOPMed) and the NHGRI Genome Sequencing Program (GSP) to identify candidate causal\ndisease-associated variants. (4) Make all the results publicly available by substantially expanding the FAVOR\nPortal to include whole genome variant functional annotations of all three billion genomic positions as well as\ncell type-specific annotations. We will implement both FAVOR and cellSTAAR in the Data Commons AnVIL\n(NHGRI) and BioData Catalyst (NHLBI) so researchers may use them for analysis of new datasets in a\nscalable cloud computing environment. We will work closely with other centers and the Data Analysis\nCoordinating Center (DACC) of the IGVF on joint analyses and building the IGVF Variant Catalog.",
+   "project_title": "Predictive Modeling of the Functional and Phenotypic Impacts of Genetic Variants",
+   "phr_text": "PROJECT NARRATIVE\nScientists have been pinpointing tens of thousands of positions in the human genome which may influence\ndisease. In order to apply this knowledge to improve treatment options and preventative medicine, however,\nwe need to have a better understanding of how these regions function and where in the body they are active.\nThis project is a predictive modeling component of the IGVF Consortium, which aims to systematically study\nthe functional impact of genetic variants and their influence on human diseases and traits by developing and\napplying cutting-edge computational and statistical methods to predict the functional impacts of\ndisease-associated genetic variants.",
+   "spending_categories_desc": "Bioengineering; Biotechnology; Genetics; Human Genome; Machine Learning and Artificial Intelligence; Networking and Information Technology R&D (NITRD); Precision Medicine; Prevention",
+   "agency_code": "NIH",
+   "covid_response": null,
+   "arra_funded": "N",
+   "budget_start": "2025-06-01T00:00:00",
+   "budget_end": "2027-05-31T00:00:00",
+   "cfda_code": "93.172",
+   "funding_mechanism": "Non-SBIR/STTR",
+   "direct_cost_amt": 539346,
+   "indirect_cost_amt": 197994,
+   "project_detail_url": "https://reporter.nih.gov/project-details/11100007",
+   "date_added": "2025-09-07T22:56:09",
+   "multiyear_award_flag": null
+  }
+ ]
+}
