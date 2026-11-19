@@ -41,12 +41,20 @@ def _unique(values: Iterable[Any]) -> list[Any]:
     return out
 
 
+def _is_supplement(r: dict[str, Any]) -> bool:
+    """Award type 3 = supplement (administrative / competing revision)."""
+    return str(r.get("award_type") or "").startswith("3")
+
+
 def _primary(records: list[dict[str, Any]]) -> dict[str, Any]:
-    """Newest parent (non-subproject) record; same rule as database.collapse_portfolio."""
+    """Newest main award record: parent (not a subproject) and not a supplement,
+    whose title/abstract describe the grant itself. Same rule as
+    database.collapse_portfolio."""
     return sorted(
         records,
-        key=lambda r: (r.get("subproject_id") is None, r.get("fiscal_year") or 0,
-                       r.get("award_notice_date") or "", r.get("appl_id") or 0),
+        key=lambda r: (r.get("subproject_id") is None, not _is_supplement(r),
+                       r.get("fiscal_year") or 0, r.get("award_notice_date") or "",
+                       r.get("appl_id") or 0),
         reverse=True,
     )[0]
 
@@ -73,7 +81,10 @@ def grant_entry(records: list[dict[str, Any]]) -> dict[str, Any]:
     for r in parents:
         if r.get("fiscal_year") and r.get("award_amount") is not None:
             by_fy[int(r["fiscal_year"])] += r["award_amount"]
-    latest_fy = max(by_fy) if by_fy else p.get("fiscal_year")
+    # Latest fiscal year of the main award. A newer year holding only a
+    # supplement does not count (it is still listed in award_amount_by_fiscal_year).
+    main_fys = [r["fiscal_year"] for r in parents if r.get("fiscal_year") and not _is_supplement(r)]
+    latest_fy = max(main_fys) if main_fys else (max(by_fy) if by_fy else p.get("fiscal_year"))
     latest_parents = [r for r in parents if r.get("fiscal_year") == latest_fy]
 
     abstract = _clean_text(p.get("abstract_text")) or next(
@@ -128,6 +139,8 @@ def grant_entry(records: list[dict[str, Any]]) -> dict[str, Any]:
                 "subproject_id": r.get("subproject_id"),
                 "award_type": r.get("award_type"),
                 "award_amount": r.get("award_amount"),
+                "opportunity_number": r.get("opportunity_number"),
+                "found_by": r.get("_found_by", "search"),
                 "title": _clean_text(r.get("project_title")) if r.get("subproject_id") else None,
             }
             for r in sorted(records, key=lambda r: (r.get("fiscal_year") or 0, r.get("appl_id") or 0))
@@ -139,31 +152,69 @@ def _counts(values: Iterable[Any]) -> dict[str, int]:
     return dict(Counter(v for v in values if v).most_common())
 
 
-def build_grant_file(raw_path: str | Path, out_path: str | Path) -> dict[str, Any]:
-    raw = read_json(raw_path)
-    by_core: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for rec in raw["results"]:
-        by_core[rec.get("core_project_num") or f"appl_{rec.get('appl_id')}"].append(rec)
-    grants = sorted((grant_entry(recs) for recs in by_core.values()),
-                    key=lambda g: (g["activity_code"] or "", g["core_project_num"] or ""))
+def build_grant_file(raw_paths: str | Path | list, out_path: str | Path,
+                     group: str | None = None) -> dict[str, Any]:
+    """Write one grant file from one query's raw pull, or (``group`` given)
+    from several queries' raw pulls merged into one portfolio."""
+    if isinstance(raw_paths, (str, Path)):
+        raw_paths = [raw_paths]
+    raws = [read_json(p) for p in raw_paths]
 
-    awards = [g["funding"]["award_amount_latest_fy"] for g in grants
-              if g["funding"]["award_amount_latest_fy"] is not None]
-    q = raw["query"]
-    doc = {
-        "schema_version": SCHEMA_VERSION,
-        "search": {
+    records: dict[Any, dict[str, Any]] = {}
+    queries_of: dict[Any, set[str]] = defaultdict(set)
+    for raw in raws:
+        for rec in raw["results"]:
+            records.setdefault(rec.get("appl_id"), rec)
+            queries_of[rec.get("core_project_num") or f"appl_{rec.get('appl_id')}"].add(raw["query"]["query_id"])
+
+    by_core: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for rec in records.values():
+        by_core[rec.get("core_project_num") or f"appl_{rec.get('appl_id')}"].append(rec)
+    grants = []
+    for core, recs in by_core.items():
+        entry = grant_entry(recs)
+        if group:
+            entry["found_by_queries"] = sorted(queries_of[core])
+        grants.append(entry)
+    grants.sort(key=lambda g: (g["activity_code"] or "", g["core_project_num"] or ""))
+
+    def describe(raw: dict[str, Any]) -> dict[str, Any]:
+        q = raw["query"]
+        return {
             "query_id": q["query_id"],
             "query_type": q["query_type"],
             "searched_for": q["value"],
             "label": q["label"],
             "group": q["group"] or None,
             "criteria": q["criteria"],
+            "complete_grants": q.get("complete_grants", False),
             "retrieved_at": raw.get("retrieved_at"),
             "reporter_url": raw.get("reporter_url"),
-            "api_records": len(raw["results"]),
             "api_total_reported": raw.get("total"),
-        },
+            "search_records": raw.get("search_records", len(raw["results"])),
+            "grant_lookup_records": raw.get("grant_lookup_records", 0),
+            "api_records": len(raw["results"]),
+        }
+
+    if group:
+        search = {
+            "portfolio_id": Path(out_path).stem,
+            "query_type": "group",
+            "searched_for": group,
+            "label": group,
+            "group": group,
+            "retrieved_at": min((r.get("retrieved_at") or "") for r in raws) or None,
+            "api_records": len(records),
+            "member_queries": [describe(r) for r in raws],
+        }
+    else:
+        search = {"portfolio_id": Path(out_path).stem, **describe(raws[0])}
+
+    awards = [g["funding"]["award_amount_latest_fy"] for g in grants
+              if g["funding"]["award_amount_latest_fy"] is not None]
+    doc = {
+        "schema_version": SCHEMA_VERSION,
+        "search": search,
         "overview": {
             "n_grants": len(grants),
             "total_award_latest_fy": sum(awards) if awards else 0,
@@ -191,7 +242,7 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def check_grant_file(path: str | Path, raw_path: str | Path | None = None) -> tuple[list[str], list[str]]:
+def check_grant_file(path: str | Path, raw_path: str | Path | list | None = None) -> tuple[list[str], list[str]]:
     """Return (errors, warnings) for one grant file."""
     errors, warnings = [], []
     path = Path(path)
@@ -217,13 +268,16 @@ def check_grant_file(path: str | Path, raw_path: str | Path | None = None) -> tu
         errors.append(f"{path.name}: grants hold {n_records} records but the API returned "
                       f"{doc['search'].get('api_records')}")
     if raw_path is not None:
-        raw_n = len(read_json(raw_path)["results"])
+        raw_list = raw_path if isinstance(raw_path, (list, tuple)) else [raw_path]
+        raw_n = len({r.get("appl_id") for p in raw_list for r in read_json(p)["results"]})
         if raw_n != doc["search"].get("api_records"):
-            errors.append(f"{path.name}: raw file has {raw_n} records, grant file says "
+            errors.append(f"{path.name}: raw file(s) hold {raw_n} records, grant file says "
                           f"{doc['search'].get('api_records')} (stale? rerun the workflow)")
-    total = doc["search"].get("api_total_reported")
-    if total is not None and total != doc["search"].get("api_records"):
-        warnings.append(f"{path.name}: API reported {total} matches but {doc['search'].get('api_records')} were retrieved")
+    for q in doc["search"].get("member_queries") or [doc["search"]]:
+        total, got = q.get("api_total_reported"), q.get("search_records", q.get("api_records"))
+        if total is not None and total != got:
+            warnings.append(f"{path.name}: API reported {total} matches for {q.get('query_id')} "
+                            f"but {got} were retrieved")
 
     seen = set()
     for i, g in enumerate(grants):
@@ -243,11 +297,11 @@ def check_grant_file(path: str | Path, raw_path: str | Path | None = None) -> tu
     return errors, warnings
 
 
-def check_grant_files(grant_paths: Iterable[str | Path], raw_paths: Iterable[str | Path] | None,
+def check_grant_files(grant_paths: Iterable[str | Path], raw_paths: Iterable[Any] | None,
                       manifest_path: str | Path) -> dict[str, Any]:
     """Check every grant file; write a manifest if all pass, raise otherwise."""
     grant_paths = [Path(p) for p in grant_paths]
-    raw_paths = [Path(p) for p in raw_paths] if raw_paths else [None] * len(grant_paths)
+    raw_paths = list(raw_paths) if raw_paths else [None] * len(grant_paths)
     all_errors, entries = [], []
     for gp, rp in zip(grant_paths, raw_paths):
         errors, warnings = check_grant_file(gp, rp)
@@ -256,7 +310,7 @@ def check_grant_files(grant_paths: Iterable[str | Path], raw_paths: Iterable[str
         if not errors:
             doc = read_json(gp)
             entry.update({
-                "query_id": doc["search"]["query_id"],
+                "portfolio_id": doc["search"]["portfolio_id"],
                 "query_type": doc["search"]["query_type"],
                 "searched_for": doc["search"]["searched_for"],
                 "group": doc["search"]["group"],

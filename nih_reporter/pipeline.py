@@ -33,7 +33,15 @@ def write_spec(spec: QuerySpec, path: str | Path) -> None:
 
 
 def fetch_query(spec_path: str | Path, out_path: str | Path, api_cfg: dict[str, Any] | None = None) -> int:
-    """Run one query against RePORTER and save the raw response records."""
+    """Run one query against RePORTER and save the raw response records.
+
+    If the spec has ``complete_grants`` set, a second pass looks up every grant
+    the search found by its core project number (with the same filters, e.g.
+    active only), so all of its records are included even when a renewal,
+    supplement or continuation was filed under a different opportunity number
+    or does not mention the search text. Each record is tagged with
+    ``_found_by``: "search" or "grant_lookup".
+    """
     api_cfg = api_cfg or {}
     spec = QuerySpec.from_dict(read_json(spec_path))
     client = ReporterClient(
@@ -44,10 +52,31 @@ def fetch_query(spec_path: str | Path, out_path: str | Path, api_cfg: dict[str, 
     )
     log.info("Fetching %s (%s: %s)", spec.query_id, spec.query_type, spec.value)
     result = client.search(spec.criteria)
-    payload = {"query": spec.to_dict(), **result}
+    records = {r["appl_id"]: {**r, "_found_by": "search"} for r in result["results"]}
+
+    n_lookup = 0
+    if spec.complete_grants and records:
+        cores = sorted({r["core_project_num"] for r in records.values() if r.get("core_project_num")})
+        base = spec.filter_criteria()
+        batch = int(api_cfg.get("grant_lookup_batch_size", 100))
+        for i in range(0, len(cores), batch):
+            extra = client.search({**base, "project_nums": cores[i:i + batch]})
+            for r in extra["results"]:
+                if r["appl_id"] not in records:
+                    records[r["appl_id"]] = {**r, "_found_by": "grant_lookup"}
+                    n_lookup += 1
+        log.info("Grant lookup over %d grants added %d records", len(cores), n_lookup)
+
+    payload = {
+        "query": spec.to_dict(),
+        **result,
+        "search_records": len(result["results"]),
+        "grant_lookup_records": n_lookup,
+        "results": list(records.values()),
+    }
     write_json(payload, out_path)
-    log.info("Saved %d records for %s -> %s", len(result["results"]), spec.query_id, out_path)
-    return len(result["results"])
+    log.info("Saved %d records for %s -> %s", len(records), spec.query_id, out_path)
+    return len(records)
 
 
 def flatten_query(raw_path: str | Path, out_tsv: str | Path) -> None:

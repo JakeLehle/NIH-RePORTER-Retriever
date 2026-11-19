@@ -85,13 +85,17 @@ def collapse_portfolio(records: pd.DataFrame, hits: pd.DataFrame, queries: pd.Da
         return pd.DataFrame(columns=PORTFOLIO_COLUMNS)
     df = records.copy()
     df["_is_parent"] = df["subproject_id"].isna()
+    df["_is_main"] = ~df["award_type"].astype(str).str.startswith("3")  # 3 = supplement
     df = df.sort_values(
-        ["core_project_num", "_is_parent", "fiscal_year", "award_notice_date", "appl_id"],
-        ascending=[True, False, False, False, False], na_position="last",
+        ["core_project_num", "_is_parent", "_is_main", "fiscal_year", "award_notice_date", "appl_id"],
+        ascending=[True, False, False, False, False, False], na_position="last",
     )
     primary = df.groupby("core_project_num", sort=False).head(1).set_index("core_project_num")
 
-    latest_fy = df.groupby("core_project_num")["fiscal_year"].max()
+    # Latest fiscal year of the main award (a newer supplement-only year doesn't count).
+    latest_fy = df[df["_is_parent"] & df["_is_main"]].groupby("core_project_num")["fiscal_year"].max()
+    latest_fy = latest_fy.reindex(df["core_project_num"].unique()).fillna(
+        df.groupby("core_project_num")["fiscal_year"].max())
     parent_latest = df[df["_is_parent"] & (df["fiscal_year"] == df["core_project_num"].map(latest_fy))]
     award_latest = parent_latest.groupby("core_project_num")["award_amount"].sum(min_count=1)
 

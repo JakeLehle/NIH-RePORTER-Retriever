@@ -3,10 +3,13 @@
 Three kinds of input table are supported (all optional, at least one needed).
 Every table may be TSV or CSV, lines starting with ``#`` are ignored, and
 column names are case-insensitive. Every table may also carry optional
-``label`` (a human readable name) and ``group`` (e.g. a consortium name, used
-to roll several queries up together downstream) columns.
+``label`` (a human readable name) and ``group`` (e.g. a consortium name; all
+queries sharing a group are also rolled up into one combined portfolio)
+columns.
 
-program_officers   columns: first_name, last_name   (or a single ``name`` column)
+program_officers   columns: first_name, last_name
+                   or a single ``name`` column: "First M Last" or "Last, First M"
+                   (the format RePORTER / Matchmaker display)
 opportunities      columns: opportunity_number      (e.g. RFA-HG-21-003, PAR-23-145)
 text_searches      columns: search_text [, search_field, operator]
                    for consortium names / acronyms / topics, e.g. "IGVF"
@@ -24,6 +27,11 @@ from typing import Any, Iterable
 
 DEFAULT_TEXT_FIELDS = "projecttitle,terms,abstracttext"
 
+# Criteria keys that define *what* a query searches for. Everything else in a
+# spec's criteria is a global filter (active only, fiscal years, ...), which is
+# reused when looking up the complete record history of each grant found.
+QUERY_KEYS = {"po_names", "foa", "advanced_text_search", "project_nums"}
+
 
 @dataclass
 class QuerySpec:
@@ -33,13 +41,20 @@ class QuerySpec:
     label: str
     group: str
     criteria: dict[str, Any] = field(default_factory=dict)
+    # After the search, also fetch every record of each grant found (by core
+    # project number), so renewals / supplements / continuations filed under a
+    # different opportunity number are included.
+    complete_grants: bool = True
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> "QuerySpec":
-        return cls(**{k: d[k] for k in cls.__dataclass_fields__})
+        return cls(**{k: d[k] for k in cls.__dataclass_fields__ if k in d})
+
+    def filter_criteria(self) -> dict[str, Any]:
+        return {k: v for k, v in self.criteria.items() if k not in QUERY_KEYS}
 
     def fingerprint(self) -> str:
         return hashlib.sha1(json.dumps(self.to_dict(), sort_keys=True).encode()).hexdigest()[:12]
@@ -48,6 +63,10 @@ class QuerySpec:
 def slugify(text: str) -> str:
     slug = re.sub(r"[^A-Za-z0-9]+", "_", text.strip()).strip("_").lower()
     return slug or "query"
+
+
+def group_id(group: str) -> str:
+    return f"group_{slugify(group)}"
 
 
 def read_table(path: str | Path) -> list[dict[str, str]]:
@@ -84,22 +103,31 @@ def global_criteria(filters: dict[str, Any] | None) -> dict[str, Any]:
     return crit
 
 
+def parse_person_name(name: str) -> tuple[str, str]:
+    """'Pazin, Michael J' or 'Michael J Pazin' -> ('Michael', 'Pazin')."""
+    name = " ".join(name.replace(".", " ").split())
+    if "," in name:
+        last, _, rest = name.partition(",")
+        first = rest.split()[0] if rest.split() else ""
+        return first.strip(), last.strip()
+    parts = name.split()
+    if len(parts) == 1:
+        return "", parts[0]
+    return parts[0], parts[-1]
+
+
 def _po_specs(rows: Iterable[dict[str, str]]) -> list[QuerySpec]:
     specs = []
     for row in rows:
-        first, last, name = row.get("first_name", ""), row.get("last_name", ""), row.get("name", "")
-        if last:
-            po = {"first_name": first, "last_name": last}
-            value = f"{first} {last}".strip()
-            slug = slugify(f"{last} {first}")
-        elif name:
-            po = {"any_name": name}
-            value = name
-            slug = slugify(name)
-        else:
+        first, last = row.get("first_name", ""), row.get("last_name", "")
+        if not last and row.get("name"):
+            first, last = parse_person_name(row["name"])
+        if not last:
             continue
+        po = {"first_name": first, "last_name": last}
+        value = f"{first} {last}".strip()
         specs.append(QuerySpec(
-            query_id=f"po_{slug}",
+            query_id=f"po_{slugify(f'{last} {first}')}",
             query_type="program_officer",
             value=value,
             label=row.get("label") or value,
@@ -158,7 +186,11 @@ BUILDERS = {
 def build_queries(inputs: dict[str, str | None], filters: dict[str, Any] | None = None,
                   base_dir: str | Path = ".") -> list[QuerySpec]:
     """Read every configured input table and return de-duplicated query specs."""
+    filters = filters or {}
     base = global_criteria(filters)
+    complete = bool(filters.get("complete_grants", True))
+    for unknown in set(inputs or {}) - set(BUILDERS):
+        raise ValueError(f"Unknown input type '{unknown}'. Use one of: {', '.join(BUILDERS)}")
     specs: list[QuerySpec] = []
     for key, builder in BUILDERS.items():
         path = (inputs or {}).get(key)
@@ -170,19 +202,35 @@ def build_queries(inputs: dict[str, str | None], filters: dict[str, Any] | None 
         if not p.exists():
             raise FileNotFoundError(f"Input table for '{key}' not found: {p}")
         specs.extend(builder(read_table(p)))
-    for unknown in set(inputs or {}) - set(BUILDERS):
-        raise ValueError(f"Unknown input type '{unknown}'. Use one of: {', '.join(BUILDERS)}")
 
-    seen: dict[str, int] = {}
+    seen_ids: dict[str, int] = {}
+    seen_criteria: set[str] = set()
     out: list[QuerySpec] = []
     for spec in specs:
         spec.criteria = {**base, **spec.criteria}
-        if spec.query_id in seen:
-            seen[spec.query_id] += 1
-            spec.query_id = f"{spec.query_id}_{seen[spec.query_id]}"
+        spec.complete_grants = complete
+        key = json.dumps(spec.criteria, sort_keys=True).lower()
+        if key in seen_criteria:  # same search listed twice (e.g. a PO pasted twice)
+            continue
+        seen_criteria.add(key)
+        if spec.query_id in seen_ids:
+            seen_ids[spec.query_id] += 1
+            spec.query_id = f"{spec.query_id}_{seen_ids[spec.query_id]}"
         else:
-            seen[spec.query_id] = 1
+            seen_ids[spec.query_id] = 1
         out.append(spec)
     if not out:
         raise ValueError("No queries found: check the 'inputs' section of the config.")
     return out
+
+
+def groups_of(specs: Iterable[QuerySpec]) -> dict[str, list[str]]:
+    """{group portfolio id: [query ids]} for every group with 2+ queries.
+
+    (A group with a single query would just duplicate that query's portfolio.)
+    """
+    groups: dict[str, list[str]] = {}
+    for s in specs:
+        if s.group:
+            groups.setdefault(group_id(s.group), []).append(s.query_id)
+    return {g: q for g, q in groups.items() if len(q) > 1}

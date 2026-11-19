@@ -27,11 +27,14 @@ def test_build_queries(tmp_path):
         {"program_officers": "po.tsv", "opportunities": "opp.csv", "text_searches": "txt.tsv"},
         {"active_only": True, "activity_codes": ["R01"]}, base_dir=tmp_path)
     ids = [q.query_id for q in qs]
-    assert ids == ["po_pazin_michael", "po_o_brien_jane", "opp_rfa_hg_20_043", "txt_igvf", "txt_igvf_2"]
+    # the duplicated IGVF row is dropped
+    assert ids == ["po_pazin_michael", "po_o_brien_jane", "opp_rfa_hg_20_043", "txt_igvf"]
     po = qs[0]
     assert po.group == "G1"
     assert po.criteria == {"include_active_projects": True, "activity_codes": ["R01"],
                            "po_names": [{"first_name": "Michael", "last_name": "Pazin"}]}
+    assert po.complete_grants is True
+    assert po.filter_criteria() == {"include_active_projects": True, "activity_codes": ["R01"]}
     assert qs[2].criteria["foa"] == ["RFA-HG-20-043"]
     assert qs[3].criteria["advanced_text_search"]["search_text"] == "IGVF"
 
@@ -62,12 +65,13 @@ def test_build_database_and_reports(tmp_path):
     assert records["appl_id"].is_unique
     assert portfolio["core_project_num"].is_unique
 
-    # UM1HG012010 appears as two fiscal-year records (FY2025, FY2026); collapsed to one grant
-    # with the latest FY's award and the latest FY's project number.
+    # UM1HG012010 has a FY2025 main award and a FY2026 supplement (award type 3);
+    # collapsed to one grant whose latest year / award / number come from the main award.
     g = portfolio.set_index("core_project_num").loc["UM1HG012010"]
     assert g["n_records"] == 2
-    assert g["latest_fiscal_year"] == 2026
-    assert g["award_amount_latest_fy"] == 1701223
+    assert g["latest_fiscal_year"] == 2025
+    assert g["latest_project_num"] == "5UM1HG012010-05"
+    assert g["award_amount_latest_fy"] == 1890246
 
     jsonl = [json.loads(l) for l in paths["jsonl"].read_text().splitlines()]
     assert len(jsonl) == len(portfolio)
@@ -151,8 +155,8 @@ def test_grant_file_and_check(tmp_path):
     assert doc["overview"]["n_grants"] == len(doc["grants"]) == 3
     g = {x["core_project_num"]: x for x in doc["grants"]}["UM1HG012010"]
     assert len(g["records"]) == 2
-    assert g["funding"]["latest_fiscal_year"] == 2026
-    assert g["funding"]["award_amount_latest_fy"] == 1701223
+    assert g["funding"]["latest_fiscal_year"] == 2025  # FY2026 is only a supplement
+    assert g["funding"]["award_amount_latest_fy"] == 1890246
     assert g["funding"]["award_amount_by_fiscal_year"] == {"2025": 1890246, "2026": 1701223}
     assert g["abstract"] and g["terms"] and g["program_officers"] == ["Michael J Pazin"]
     # file is pretty-printed (human readable), not one long line
@@ -181,3 +185,91 @@ def test_check_grant_files_fails(tmp_path):
     with pytest.raises(ValueError, match="missing or empty"):
         check_grant_files([tmp_path / "nope.json"], None, manifest)
     assert not manifest.exists()
+
+
+def test_parse_person_name_and_name_column(tmp_path):
+    from nih_reporter.queries import parse_person_name
+
+    assert parse_person_name("Pazin, Michael J") == ("Michael", "Pazin")
+    assert parse_person_name("Michael J. Pazin") == ("Michael", "Pazin")
+    assert parse_person_name("PAZIN, MICHAEL") == ("MICHAEL", "PAZIN")
+    (tmp_path / "po.tsv").write_text("name\nPazin, Michael J\nMichael Pazin\n")
+    qs = build_queries({"program_officers": "po.tsv"}, {"complete_grants": False}, base_dir=tmp_path)
+    assert len(qs) == 1  # both spellings are the same PO
+    assert qs[0].criteria["po_names"] == [{"first_name": "Michael", "last_name": "Pazin"}]
+    assert qs[0].complete_grants is False
+
+
+def test_groups_of(tmp_path):
+    from nih_reporter.queries import groups_of
+
+    (tmp_path / "opp.tsv").write_text("opportunity_number\tgroup\nRFA-1\tIGVF\nRFA-2\tIGVF\nRFA-3\tSolo\n")
+    qs = build_queries({"opportunities": "opp.tsv"}, base_dir=tmp_path)
+    assert groups_of(qs) == {"group_igvf": ["opp_rfa_1", "opp_rfa_2"]}  # single-query groups skipped
+
+
+class LookupSession:
+    """Search returns 2 records of grant A; lookup by project number returns 1 more."""
+
+    def __init__(self):
+        self.calls, self.headers = [], {}
+
+    def post(self, url, json=None, timeout=None):
+        self.calls.append(json)
+        crit = json["criteria"]
+        if "project_nums" in crit:
+            assert crit["project_nums"] == ["R01AA000001"]
+            assert "foa" not in crit and crit["include_active_projects"] is True
+            res = [{"appl_id": 2, "core_project_num": "R01AA000001"},
+                   {"appl_id": 3, "core_project_num": "R01AA000001"}]
+        else:
+            res = [{"appl_id": 1, "core_project_num": "R01AA000001"},
+                   {"appl_id": 2, "core_project_num": "R01AA000001"}]
+        return FakeResponse(200, {"meta": {"total": len(res), "search_id": "s"}, "results": res})
+
+
+def test_fetch_query_completes_grants(tmp_path, monkeypatch):
+    from nih_reporter import pipeline
+    from nih_reporter.queries import QuerySpec
+
+    session = LookupSession()
+    monkeypatch.setattr(pipeline, "ReporterClient",
+                        lambda **kw: api.ReporterClient(min_interval=0, session=session))
+    spec = QuerySpec("opp_x", "opportunity", "RFA-X", "RFA-X", "",
+                     {"include_active_projects": True, "foa": ["RFA-X"]})
+    pipeline.write_spec(spec, tmp_path / "spec.json")
+    n = pipeline.fetch_query(tmp_path / "spec.json", tmp_path / "raw.json")
+    raw = json.loads((tmp_path / "raw.json").read_text())
+    assert n == 3
+    assert raw["search_records"] == 2 and raw["grant_lookup_records"] == 1
+    assert {r["appl_id"]: r["_found_by"] for r in raw["results"]} == {1: "search", 2: "search", 3: "grant_lookup"}
+
+
+def test_group_grant_file(tmp_path):
+    from nih_reporter.landscape import build_grant_file, check_grant_files
+
+    doc = build_grant_file(RAWS, tmp_path / "group_test.json", group="Test group")
+    assert doc["search"]["query_type"] == "group"
+    assert len(doc["search"]["member_queries"]) == 2
+    assert all("found_by_queries" in g for g in doc["grants"])
+    m = check_grant_files([tmp_path / "group_test.json"], [RAWS], tmp_path / "manifest.json")
+    assert m["files"][0]["portfolio_id"] == "group_test"
+
+
+def test_supplement_does_not_define_latest_year():
+    from nih_reporter.landscape import grant_entry
+
+    base = {"core_project_num": "UM1HG000001", "subproject_id": None, "is_active": True,
+            "project_title": "Main grant", "abstract_text": "main abstract"}
+    recs = [
+        {**base, "appl_id": 1, "fiscal_year": 2025, "award_type": "5", "award_amount": 1000,
+         "project_num": "5UM1HG000001-05"},
+        {**base, "appl_id": 2, "fiscal_year": 2026, "award_type": "3", "award_amount": 50,
+         "project_num": "3UM1HG000001-05S1", "project_title": "Supplement", "abstract_text": "supp"},
+    ]
+    g = grant_entry(recs)
+    assert g["title"] == "Main grant" and g["abstract"] == "main abstract"
+    assert g["latest_project_num"] == "5UM1HG000001-05"
+    assert g["funding"]["latest_fiscal_year"] == 2025
+    assert g["funding"]["award_amount_latest_fy"] == 1000
+    assert g["funding"]["award_amount_by_fiscal_year"] == {"2025": 1000, "2026": 50}

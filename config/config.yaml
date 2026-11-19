@@ -1,7 +1,8 @@
 # NIH RePORTER Retriever - example configuration
 #
-# Run:  snakemake -s workflow/Snakefile --configfile config/config.yaml --cores 1
-#   or: nih-reporter run config/config.yaml
+# Run everything:     nih-reporter run config/config.yaml
+# Phase 1 only:       nih-reporter run config/config.yaml --retrieve-only
+# (or directly:       snakemake -s workflow/Snakefile --configfile config/config.yaml --cores 1 [retrieve])
 
 # Where everything is written.
 output_dir: results
@@ -9,15 +10,20 @@ output_dir: results
 # Input tables (TSV or CSV). Comment out / delete any you don't need, but keep
 # at least one. Paths are relative to the directory you run snakemake from.
 inputs:
-  program_officers: config/program_officers.tsv   # first_name, last_name [, label, group]
+  program_officers: config/program_officers.tsv   # first_name + last_name, or name ("Pazin, Michael J")
   opportunities: config/opportunities.tsv         # opportunity_number [, label, group]
   text_searches: config/text_searches.tsv         # search_text [, search_field, operator, label, group]
 
-# Filters applied to EVERY query.
+# Filters applied to EVERY search.
 filters:
-  # true  -> only currently active projects (the portfolio "right now").
-  # false -> all projects; combine with fiscal_years to look at history.
+  # true  -> only currently active (funded) projects - the portfolio "right now".
+  # false -> every project ever matched; combine with fiscal_years to bound it.
   active_only: true
+  # After each search, also look up every grant it found by core project number
+  # (same filters), so renewals, supplements and continuation years filed under a
+  # different opportunity number - or that don't mention a consortium's name -
+  # are included in that grant's record history.
+  complete_grants: true
   fiscal_years: []          # e.g. [2024, 2025, 2026]
   agencies: []              # administering IC abbreviations, e.g. [NHGRI, NCI]
   activity_codes: []        # e.g. [R01, R21, U01, R35]
@@ -29,5 +35,28 @@ filters:
 api:
   min_seconds_between_requests: 1.0   # NIH asks for <= 1 request per second
   page_size: 500                      # API maximum
+  grant_lookup_batch_size: 100        # core project numbers per lookup request
   max_retries: 5
   timeout_seconds: 120
+
+# Phase 2: summarise each grant file with a local LLM served by Ollama.
+# Install Ollama (https://ollama.com), then:  ollama pull <model>  and  ollama serve
+summarize:
+  enabled: true
+  ollama:
+    host: http://localhost
+    port: 11434
+    model: llama3.1:8b        # any model you have pulled, e.g. qwen2.5:14b, gemma3:12b, llama3.3:70b
+    temperature: 0.2
+    num_ctx: 32768            # context window in tokens; must fit max_chars_per_call (~4 chars/token)
+    timeout_seconds: 900
+    seed: 42
+    keep_alive: 30m
+  # Character budget per synthesis call. Portfolios whose grant digests exceed
+  # this are read in parts, then combined. ~60000 chars ≈ 15k tokens.
+  max_chars_per_call: 60000
+  # Override any prompt with your own file (same === SYSTEM === / === USER === format).
+  prompts:
+    grant_extraction: workflow/prompts/grant_extraction.txt
+    partial_synthesis: workflow/prompts/partial_synthesis.txt
+    portfolio_synthesis: workflow/prompts/portfolio_synthesis.txt

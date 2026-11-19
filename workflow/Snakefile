@@ -1,17 +1,18 @@
 """NIH RePORTER Retriever - Snakemake workflow.
 
-Phase 1 (this file) is retrieval only - no summarisation or AI:
-    input tables -> RePORTER queries -> raw JSON
-      -> grants/{query}.json        one human-readable grant file per search term
-      -> grants/manifest.json       written only if every grant file passes checks
+Phase 1 - retrieval only (no AI):
+    input tables -> RePORTER searches (+ full record lookup per grant) -> raw JSON
+      -> grants/{portfolio}.json   one readable grant file per search term, plus one
+                                   per group (e.g. a consortium) of 2+ searches
+      -> grants/manifest.json      written only if every grant file passes checks
     plus a portfolio database (TSV / SQLite) and Markdown reports.
+
+Phase 2 - summarisation with a local LLM (Ollama), if summarize.enabled:
+    grants/manifest.json + grants/{portfolio}.json -> summaries/{portfolio}.md / .json
 
 Run from the repository root:
     snakemake -s workflow/Snakefile --configfile config/config.yaml --cores 1
-
-Phase 2 (landscape summary + gap analysis) will be added as rules that take
-{output_dir}/grants/manifest.json as their input, so they only run once every
-grant file exists and has been checked.
+    snakemake -s workflow/Snakefile --configfile config/config.yaml --cores 1 retrieve   # Phase 1 only
 """
 
 import json
@@ -22,8 +23,8 @@ from pathlib import Path
 REPO_ROOT = Path(workflow.basedir).parent
 sys.path.insert(0, str(REPO_ROOT))
 
-from nih_reporter.queries import build_queries
-from nih_reporter import pipeline, database, reports, landscape
+from nih_reporter.queries import build_queries, groups_of
+from nih_reporter import pipeline, database, reports, landscape, summarize
 
 _pkg_log = logging.getLogger("nih_reporter")
 _pkg_log.setLevel(logging.INFO)
@@ -42,6 +43,13 @@ API_CFG = config.get("api", {})
 # Input table paths in the config are resolved relative to the working directory.
 QUERIES = {q.query_id: q for q in build_queries(config["inputs"], config.get("filters"), base_dir=".")}
 QIDS = sorted(QUERIES)
+# Groups (e.g. a consortium's RFAs + its name search) get a combined portfolio too.
+GROUPS = groups_of(QUERIES.values())
+GROUP_NAMES = {gid: QUERIES[qids[0]].group for gid, qids in GROUPS.items()}
+PORTFOLIOS = QIDS + sorted(GROUPS)
+
+SUMMARIZE_CFG = config.get("summarize") or {}
+SUMMARIZE = bool(SUMMARIZE_CFG.get("enabled", False))
 
 
 def log_to(path):
@@ -59,21 +67,37 @@ def release(handler):
 
 
 wildcard_constraints:
-    qid="[A-Za-z0-9_\\-]+",
+    qid="(?:po|opp|txt)_[A-Za-z0-9_\\-]+",
+    gid="group_[A-Za-z0-9_\\-]+",
+    pid="[A-Za-z0-9_\\-]+",
 
 
 GRANT_MANIFEST = OUT / "grants" / "manifest.json"
+SUMMARIES = expand(OUT / "summaries" / "{pid}.md", pid=PORTFOLIOS)
+
+
+# Phase 1 outputs: everything that needs nothing but the RePORTER API.
+PHASE1 = [
+    GRANT_MANIFEST,
+    OUT / "database" / "portfolio.tsv",
+    OUT / "database" / "portfolio.jsonl",
+    OUT / "database" / "nih_reporter.sqlite",
+    OUT / "reports" / "program_officer_summary.tsv",
+    *expand(OUT / "reports" / "portfolios" / "{qid}.md", qid=QIDS),
+    *expand(OUT / "tables" / "{qid}.tsv", qid=QIDS),
+]
 
 
 rule all:
     input:
-        GRANT_MANIFEST,
-        OUT / "database" / "portfolio.tsv",
-        OUT / "database" / "portfolio.jsonl",
-        OUT / "database" / "nih_reporter.sqlite",
-        OUT / "reports" / "program_officer_summary.tsv",
-        expand(OUT / "reports" / "portfolios" / "{qid}.md", qid=QIDS),
-        expand(OUT / "tables" / "{qid}.tsv", qid=QIDS),
+        PHASE1,
+        SUMMARIES if SUMMARIZE else [],
+
+
+# Phase 1 only (no LLM):  snakemake ... retrieve
+rule retrieve:
+    input:
+        PHASE1,
 
 
 # One small JSON spec per query. Because the spec is passed as a param, the rule
@@ -158,12 +182,22 @@ rule grant_file:
         landscape.build_grant_file(input[0], output[0])
 
 
+# Combined grant file for each group of 2+ searches (e.g. a consortium).
+rule group_grant_file:
+    input:
+        lambda wc: expand(OUT / "raw" / "{qid}.json", qid=GROUPS[wc.gid]),
+    output:
+        OUT / "grants" / "{gid}.json",
+    run:
+        landscape.build_grant_file(list(input), output[0], group=GROUP_NAMES[wildcards.gid])
+
+
 # Checks every grant file exists, parses, is internally consistent and matches
 # the raw API pull. Writes the manifest only if all pass; otherwise the job
 # fails with the list of problems. Phase 2 rules take the manifest as input.
 rule check_grant_files:
     input:
-        grants=expand(OUT / "grants" / "{qid}.json", qid=QIDS),
+        grants=expand(OUT / "grants" / "{pid}.json", pid=PORTFOLIOS),
         raw=expand(OUT / "raw" / "{qid}.json", qid=QIDS),
     output:
         GRANT_MANIFEST,
@@ -172,11 +206,42 @@ rule check_grant_files:
     run:
         h = log_to(log[0])
         try:
-            m = landscape.check_grant_files(input.grants, input.raw, output[0])
+            raw_for = {q: str(OUT / "raw" / f"{q}.json") for q in QIDS}
+            raw_lists = [[raw_for[q] for q in GROUPS[p]] if p in GROUPS else raw_for[p]
+                         for p in PORTFOLIOS]
+            m = landscape.check_grant_files(input.grants, raw_lists, output[0])
             for f in m["files"]:
                 for w in f["warnings"]:
                     logging.getLogger("nih_reporter.check").warning(w)
             logging.getLogger("nih_reporter.check").info(
                 "%d grant files OK (%d grants)", m["n_files"], m["n_grants_total"])
+        finally:
+            release(h)
+
+
+# Phase 2: summarise each checked grant file with a local LLM via Ollama.
+# Takes the manifest as input, so it only runs once every grant file exists and
+# passed its checks. Per-grant digests are cached in summaries/cache/, so after
+# a data refresh only new or changed grants go back through the model.
+# Reruns when the summarize config (model, port, prompts, ...) changes.
+rule summarize_portfolio:
+    input:
+        manifest=GRANT_MANIFEST,
+        grants=OUT / "grants" / "{pid}.json",
+    output:
+        md=OUT / "summaries" / "{pid}.md",
+        js=OUT / "summaries" / "{pid}.json",
+    params:
+        cfg=json.dumps(SUMMARIZE_CFG, sort_keys=True),
+    log:
+        OUT / "logs" / "summarize" / "{pid}.log",
+    resources:
+        ollama=1,
+    run:
+        h = log_to(log[0])
+        try:
+            summarize.summarize_portfolio(
+                input.grants, output.js, output.md, SUMMARIZE_CFG,
+                cache_dir=OUT / "summaries" / "cache", manifest=input.manifest)
         finally:
             release(h)

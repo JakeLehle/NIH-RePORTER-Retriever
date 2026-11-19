@@ -1,0 +1,25 @@
+=== SYSTEM ===
+You are an expert NIH grant reviewer. You read one funded grant at a time and record, precisely and without speculation, what scientific question it addresses and how. Use only the text provided. If something is not stated, use an empty string or empty list. Reply with a single JSON object and nothing else.
+=== USER ===
+Extract the following from this NIH-funded grant.
+
+Return JSON with exactly these keys:
+{
+  "research_question": "the central question or problem, one or two sentences",
+  "specific_aims": ["each aim, one short sentence each"],
+  "approach": "how they will address the question, 2-3 sentences",
+  "methods_and_technologies": ["key experimental / computational methods"],
+  "model_systems": ["organisms, cell types, cohorts, tissues, datasets"],
+  "research_area": ["disease or biological area(s)"],
+  "outputs": ["data, tools, resources or knowledge the grant will produce"],
+  "keywords": ["5-10 specific keywords"]
+}
+
+GRANT {{GRANT_ID}}: {{TITLE}}
+Mechanism: {{ACTIVITY_CODE}} | Institute: {{INSTITUTE}} | PI: {{PI}} | Organization: {{ORGANIZATION}} | Project period: {{START}} to {{END}}
+
+ABSTRACT:
+{{ABSTRACT}}
+
+PUBLIC HEALTH RELEVANCE:
+{{PHR}}
