@@ -1,0 +1,907 @@
+{
+ "meta": {
+  "total": 150
+ },
+ "results": [
+  {
+   "projects_counts": 28,
+   "ic_abbr": "NHGRI",
+   "full_name": "GILCHRIST, DANIEL A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 26,
+   "ic_abbr": "NHGRI",
+   "full_name": "PAZIN, MICHAEL J",
+   "po_email": null
+  },
+  {
+   "projects_counts": 15,
+   "ic_abbr": "NIMH",
+   "full_name": "PRICE, AMANDA JOY",
+   "po_email": null
+  },
+  {
+   "projects_counts": 10,
+   "ic_abbr": "NIA",
+   "full_name": "YAO, ALISON Q",
+   "po_email": null
+  },
+  {
+   "projects_counts": 10,
+   "ic_abbr": "NIA",
+   "full_name": "GRAY, ERIN EMILY",
+   "po_email": null
+  },
+  {
+   "projects_counts": 10,
+   "ic_abbr": "NIGMS",
+   "full_name": "WAIRKAR, YOGESH PRABHAKAR",
+   "po_email": null
+  },
+  {
+   "projects_counts": 9,
+   "ic_abbr": "NIGMS",
+   "full_name": "KRASNEWICH, DONNA M",
+   "po_email": null
+  },
+  {
+   "projects_counts": 7,
+   "ic_abbr": "NIGMS",
+   "full_name": "YUAN, JEAN",
+   "po_email": null
+  },
+  {
+   "projects_counts": 7,
+   "ic_abbr": "NHGRI",
+   "full_name": "MORRIS, STEPHANIE A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 6,
+   "ic_abbr": "NIMH",
+   "full_name": "KIM, DOUGLAS S",
+   "po_email": null
+  },
+  {
+   "projects_counts": 6,
+   "ic_abbr": "NIMH",
+   "full_name": "LEINWAND, SARAH GOLDBERG",
+   "po_email": null
+  },
+  {
+   "projects_counts": 6,
+   "ic_abbr": "NIGMS",
+   "full_name": "MASKERI, BAISHALI ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 6,
+   "ic_abbr": "NHGRI",
+   "full_name": "CHADWICK, LISA ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 5,
+   "ic_abbr": "NIGMS",
+   "full_name": "VATAKIS, DIMITRIOS NIKOLAOS",
+   "po_email": null
+  },
+  {
+   "projects_counts": 5,
+   "ic_abbr": "NICHD",
+   "full_name": "STEIN, KATHRYN K",
+   "po_email": null
+  },
+  {
+   "projects_counts": 5,
+   "ic_abbr": "NIDCR",
+   "full_name": "SAIFUDEEN, ZUBAIDA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 5,
+   "ic_abbr": "NCI",
+   "full_name": "FINGERMAN, IAN M",
+   "po_email": null
+  },
+  {
+   "projects_counts": 5,
+   "ic_abbr": "NHGRI",
+   "full_name": "FUFA, TEMESGEN D",
+   "po_email": null
+  },
+  {
+   "projects_counts": 4,
+   "ic_abbr": "NIGMS",
+   "full_name": "NGUYEN, HAN",
+   "po_email": null
+  },
+  {
+   "projects_counts": 4,
+   "ic_abbr": "NINDS",
+   "full_name": "TYLER, WILLIAM A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 4,
+   "ic_abbr": "NIDA",
+   "full_name": "POLLOCK, JONATHAN D",
+   "po_email": null
+  },
+  {
+   "projects_counts": 4,
+   "ic_abbr": "NCI",
+   "full_name": "LI, JERRY",
+   "po_email": null
+  },
+  {
+   "projects_counts": 4,
+   "ic_abbr": "NINDS",
+   "full_name": "MORRIS, JILL A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 4,
+   "ic_abbr": "NHLBI",
+   "full_name": "LUO, JAMES",
+   "po_email": null
+  },
+  {
+   "projects_counts": 4,
+   "ic_abbr": "NIMH",
+   "full_name": "PANCHISION, DAVID M",
+   "po_email": null
+  },
+  {
+   "projects_counts": 4,
+   "ic_abbr": "NIDA",
+   "full_name": "SATTERLEE, JOHN S",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NHGRI",
+   "full_name": "CHADWICK, LISA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NIGMS",
+   "full_name": "ADKINS, RONALD",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NIA",
+   "full_name": "DIBATTISTA, AMANDA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NHLBI",
+   "full_name": "LIDMAN, KARIN FREDRIKSSON",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NIMH",
+   "full_name": "PINARD, COURTNEY",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NIGMS",
+   "full_name": "YEH, ALVIN TIEN-WEI",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NIGMS",
+   "full_name": "PHILLIPS, ANDRE W",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NIDDK",
+   "full_name": "PAWLIKOWSKA, LUDMILA SYLWIA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NIAID",
+   "full_name": "GONDRE-LEWIS, TIMOTHY A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NIGMS",
+   "full_name": "ADKINS, RONALD ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NCI",
+   "full_name": "LI, JERRY ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 3,
+   "ic_abbr": "NCI",
+   "full_name": "JOHNSON, RONALD L",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIAMS",
+   "full_name": "ZHENG, XINCHENG",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NEI",
+   "full_name": "NEUHOLD, LISA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIDDK",
+   "full_name": "ZAGHLOUL, NORANN",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIDDK",
+   "full_name": "GREENWEL, PATRICIA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHLBI",
+   "full_name": "CATANIA, SELEN MURATOGLU",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIAID",
+   "full_name": "DONG, GANG",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIDDK",
+   "full_name": "BLONDEL, OLIVIER",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHGRI",
+   "full_name": "PILLAI, AJAY",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIA",
+   "full_name": "NEWMAN, ELIZABETH",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHLBI",
+   "full_name": "KETEMA, FASSIL",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIGMS",
+   "full_name": "CHOW, CHI-WING",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NEI",
+   "full_name": "AGARWAL, NEERAJ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIMH",
+   "full_name": "PEVSNER, JONATHAN",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NINDS",
+   "full_name": "MILLER, DANIEL L",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NEI",
+   "full_name": "SHEN, GRACE L",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHLBI",
+   "full_name": "QASBA, PANKAJ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHGRI",
+   "full_name": "FLETCHER, COLIN F",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "OD",
+   "full_name": "PAPANICOLAOU, GEORGE",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHLBI",
+   "full_name": "GOLDBERG, ILANA GRACE",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHLBI",
+   "full_name": "HASAN, AHMED A K",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHLBI",
+   "full_name": "BALIJEPALLI, RAVI C",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIAID",
+   "full_name": "FERGUSON, STACY E",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NLM",
+   "full_name": "DENNIS, ALLISON FRANCES",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIDA",
+   "full_name": "LOSSIE, AMY C",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIAMS",
+   "full_name": "WANG, YAN Z",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHGRI",
+   "full_name": "SEN, SHURJO KUMAR",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NICHD",
+   "full_name": "TOYAMA, REIKO",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIMH",
+   "full_name": "VAN'T VEER, ASHLEE V",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIAID",
+   "full_name": "RICE, JEFFREY S",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NINDS",
+   "full_name": "RIDDLE, ROBERT D",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIAID",
+   "full_name": "PLIMACK, MARY KATHERINE BRADFORD",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHGRI",
+   "full_name": "ARGUELLO, ALEXANDER",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIAMS",
+   "full_name": "CARIFI, EMILY FORAN",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NINDS",
+   "full_name": "LAVAUTE, TIMOTHY M",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIMH",
+   "full_name": "YAO, YONG",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIAID",
+   "full_name": "COSTERO-SAINT DENIS, ADRIANA ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NIGMS",
+   "full_name": "CHOW, CHI-WING ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHGRI",
+   "full_name": "WETTERSTRAND, KRIS A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 2,
+   "ic_abbr": "NHLBI",
+   "full_name": "SCHWARTZ, LISA ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIA",
+   "full_name": "MILLER, MARILYN",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIA",
+   "full_name": "GERALD, MELISSA S",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHGRI",
+   "full_name": "FELSENFELD, ADAM",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NLM",
+   "full_name": "RAVICHANDRAN, VEERASAMY",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NCI",
+   "full_name": "DIVI, RAO L",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "ADHIKARI, BISHOW B",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDCR",
+   "full_name": "WANG, LU",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "LI, HUIQING",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHGRI",
+   "full_name": "HINDORFF, LUCIA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIGMS",
+   "full_name": "RUBIO, MERCEDES",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "LU, JINING",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NINDS",
+   "full_name": "NUCKOLLS, GLEN H",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NICHD",
+   "full_name": "HENKEN, DEBORAH B",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDDK",
+   "full_name": "GUPTA, DHANANJAY",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NEI",
+   "full_name": "SONG, HONGMAN",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NICHD",
+   "full_name": "TAYMANS, SUSAN",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIEHS",
+   "full_name": "MCALLISTER, KIMBERLY A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDDK",
+   "full_name": "BURGESS-BEUSSE, BONNIE L",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIA",
+   "full_name": "GUO, MAX",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NCI",
+   "full_name": "NELSON, STEFANIE A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDDK",
+   "full_name": "ROY, CINDY",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIGMS",
+   "full_name": "KEANE-MYERS, ANDREA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "YAN, YE",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIA",
+   "full_name": "BENNANI-BAITI, MICHAEL",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDCR",
+   "full_name": "THIRUMANGALATHU, SHOBA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIA",
+   "full_name": "WANG, FEI",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "THAKAR, RAHUL GAUTAM",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIGMS",
+   "full_name": "GIBBS, KENNETH D",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NICHD",
+   "full_name": "CLARK, DAVID",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "SOOD, BEENA G",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIAID",
+   "full_name": "BREEN, JOSEPH J",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NCI",
+   "full_name": "MECHANIC, LEAH E",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIGMS",
+   "full_name": "BENDER, MICHAEL T",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDDK",
+   "full_name": "AKOLKAR, BEENA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIA",
+   "full_name": "OPANASHUK, LISA A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIAID",
+   "full_name": "GUERAU, MIREIA",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NCI",
+   "full_name": "FORRY, SUZANNE L",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIGMS",
+   "full_name": "BARNES, CHARLES ASHLEY",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NICHD",
+   "full_name": "KENT, TRAVIS JOHN",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "TJURMINA, OLGA A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDCR",
+   "full_name": "CHANDER, PREETHI",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIEHS",
+   "full_name": "SHAUGHNESSY, DANIEL",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHGRI",
+   "full_name": "ROWLEY, ROBB KENNETH",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "WELNIAK, LISBETH A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIMH",
+   "full_name": "PEVSNER, JONATHAN ABRAM",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIAID",
+   "full_name": "MALLIA, CONRAD M",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIAMS",
+   "full_name": "UNDALE, ANITA H",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDDK",
+   "full_name": "YANOVSKI, SUSAN Z",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NCI",
+   "full_name": "DUGLAS TABOR, YVONNE ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDCR",
+   "full_name": "SARE, RACHEL",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDDK",
+   "full_name": "ZAGHLOUL, NORANN ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "POSTOW, LISA ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDDK",
+   "full_name": "MARIC-BILKAN, CHRISTINE ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NCI",
+   "full_name": "AULT, GRACE S",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NEI",
+   "full_name": "NEUHOLD, LISA ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIA",
+   "full_name": "PETANCESKA, SUZANA ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NCI",
+   "full_name": "ELJANNE, MARIAM ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "SCHRAMM, CHARLENE A",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIAMS",
+   "full_name": "ZHENG, XINCHENG ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIAAA",
+   "full_name": "POWELL, ELIZABETH ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "BURNS, KRISTIN ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIMH",
+   "full_name": "PINARD, COURTNEY ROSE",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIA",
+   "full_name": "CHAKROBORTY, SHREAYA ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDDK",
+   "full_name": "HWA, ALBERT J",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIA",
+   "full_name": "WANG, FEI ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NEI",
+   "full_name": "COOK, TIFFANY ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDA",
+   "full_name": "BORGMANN, KATHLEEN RUTH",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIAID",
+   "full_name": "GUERAU, MIREIA ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHLBI",
+   "full_name": "HASAN, AHMED A  K",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIAID",
+   "full_name": "DONG, GANG ",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NIDDK",
+   "full_name": "BRUNSKILL, ERIC WAYNE",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NINDS",
+   "full_name": "SHEWMAKER, FRANK PAUL",
+   "po_email": null
+  },
+  {
+   "projects_counts": 1,
+   "ic_abbr": "NHGRI",
+   "full_name": "ARGUELLO, ALEXANDER ",
+   "po_email": null
+  }
+ ]
+}

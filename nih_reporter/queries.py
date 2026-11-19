@@ -183,25 +183,17 @@ BUILDERS = {
 }
 
 
-def build_queries(inputs: dict[str, str | None], filters: dict[str, Any] | None = None,
-                  base_dir: str | Path = ".") -> list[QuerySpec]:
-    """Read every configured input table and return de-duplicated query specs."""
+def build_queries_from_rows(rows: dict[str, list[dict[str, str]]], filters: dict[str, Any] | None = None,
+                            allow_empty: bool = False) -> list[QuerySpec]:
+    """Turn table rows ({input type: [row dicts]}) into de-duplicated query specs."""
     filters = filters or {}
     base = global_criteria(filters)
     complete = bool(filters.get("complete_grants", True))
-    for unknown in set(inputs or {}) - set(BUILDERS):
+    for unknown in set(rows) - set(BUILDERS):
         raise ValueError(f"Unknown input type '{unknown}'. Use one of: {', '.join(BUILDERS)}")
     specs: list[QuerySpec] = []
     for key, builder in BUILDERS.items():
-        path = (inputs or {}).get(key)
-        if not path:
-            continue
-        p = Path(path)
-        if not p.is_absolute():
-            p = Path(base_dir) / p
-        if not p.exists():
-            raise FileNotFoundError(f"Input table for '{key}' not found: {p}")
-        specs.extend(builder(read_table(p)))
+        specs.extend(builder(rows.get(key) or []))
 
     seen_ids: dict[str, int] = {}
     seen_criteria: set[str] = set()
@@ -219,9 +211,34 @@ def build_queries(inputs: dict[str, str | None], filters: dict[str, Any] | None 
         else:
             seen_ids[spec.query_id] = 1
         out.append(spec)
-    if not out:
+    if not out and not allow_empty:
         raise ValueError("No queries found: check the 'inputs' section of the config.")
     return out
+
+
+def read_inputs(inputs: dict[str, Any] | None, base_dir: str | Path = ".") -> dict[str, list[dict[str, str]]]:
+    """Read every configured table. Each ``inputs`` entry may be one path or a list."""
+    for unknown in set(inputs or {}) - set(BUILDERS):
+        raise ValueError(f"Unknown input type '{unknown}'. Use one of: {', '.join(BUILDERS)}")
+    rows: dict[str, list[dict[str, str]]] = {}
+    for key in BUILDERS:
+        paths = (inputs or {}).get(key)
+        if not paths:
+            continue
+        for path in ([paths] if isinstance(paths, (str, Path)) else paths):
+            p = Path(path)
+            if not p.is_absolute():
+                p = Path(base_dir) / p
+            if not p.exists():
+                raise FileNotFoundError(f"Input table for '{key}' not found: {p}")
+            rows.setdefault(key, []).extend(read_table(p))
+    return rows
+
+
+def build_queries(inputs: dict[str, Any] | None, filters: dict[str, Any] | None = None,
+                  base_dir: str | Path = ".", allow_empty: bool = False) -> list[QuerySpec]:
+    """Read every configured input table and return de-duplicated query specs."""
+    return build_queries_from_rows(read_inputs(inputs, base_dir), filters, allow_empty)
 
 
 def groups_of(specs: Iterable[QuerySpec]) -> dict[str, list[str]]:

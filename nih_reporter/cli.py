@@ -4,6 +4,8 @@
     nih-reporter run my_project/config.yaml       # run the Snakemake workflow
     nih-reporter run my_project/config.yaml --retrieve-only   # Phase 1 only (no LLM)
     nih-reporter search --po "Michael Pazin"      # quick one-off lookup, no Snakemake
+    nih-reporter search --po-file my_pos.tsv      # same, for a table of officers
+    nih-reporter matchmaker specific_aims.txt     # find officers for your aims text
     nih-reporter summarize results/grants/po_pazin_michael.json --model llama3.1:8b
 """
 
@@ -21,7 +23,7 @@ import yaml
 from .database import build_database
 from .landscape import build_grant_file, check_grant_files
 from .pipeline import fetch_query, flatten_query, write_spec
-from .queries import QuerySpec, build_queries, global_criteria, groups_of, parse_person_name, slugify
+from .queries import build_queries, build_queries_from_rows, groups_of, read_table
 from .reports import write_reports
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -41,13 +43,14 @@ def main(verbose):
 def create_config(project_dir):
     project = Path(project_dir)
     project.mkdir(parents=True, exist_ok=True)
-    for name in ["program_officers.tsv", "opportunities.tsv", "text_searches.tsv"]:
+    for name in ["program_officers.tsv", "opportunities.tsv", "text_searches.tsv", "specific_aims.txt"]:
         target = project / name
         if not target.exists():
             shutil.copy(EXAMPLE_CONFIG_DIR / name, target)
     cfg = yaml.safe_load((EXAMPLE_CONFIG_DIR / "config.yaml").read_text())
     cfg["output_dir"] = str(project / "results")
     cfg["inputs"] = {k: str(project / f"{k}.tsv") for k in cfg["inputs"]}
+    cfg["matchmaker"]["aims_file"] = str(project / "specific_aims.txt")
     cfg["summarize"]["prompts"] = {k: str(REPO_ROOT / v) for k, v in cfg["summarize"]["prompts"].items()}
     cfg_path = project / "config.yaml"
     if cfg_path.exists():
@@ -70,7 +73,7 @@ def run(config_yaml, cores, dry_run, refresh, retrieve_only, snakemake_args):
     if dry_run:
         cmd.append("-n")
     if refresh:
-        cmd += ["--forcerun", "fetch_query"]
+        cmd += ["--forcerun", "fetch_query", "matchmaker"]
     if retrieve_only:
         cmd.append("retrieve")
     cmd += list(snakemake_args)
@@ -78,30 +81,27 @@ def run(config_yaml, cores, dry_run, refresh, retrieve_only, snakemake_args):
     sys.exit(subprocess.call(cmd))
 
 
-@main.command("search", help="One-off search without Snakemake; writes the same outputs to OUT_DIR.")
-@click.option("--po", "po_names", multiple=True, help='Program officer, "First Last". Repeatable.')
+@main.command("search", help="One-off search without a config or Snakemake; writes the same "
+                             "outputs (grant files, manifest, database, reports) to --out-dir.")
+@click.option("--po", "po_names", multiple=True, help='Program officer: "First Last" or "Last, First M". Repeatable.')
+@click.option("--po-file", "po_files", multiple=True, type=click.Path(exists=True, dir_okay=False),
+              help="Table of program officers (TSV/CSV, as for the pipeline). Repeatable.")
 @click.option("--opportunity", "opps", multiple=True, help="Opportunity number, e.g. RFA-HG-20-043. Repeatable.")
 @click.option("--text", "texts", multiple=True, help="Free-text search (title/terms/abstract). Repeatable.")
 @click.option("--include-inactive", is_flag=True, help="Include grants that are no longer active (default: active only).")
 @click.option("--out-dir", default="results_search", show_default=True)
-def search(po_names, opps, texts, include_inactive, out_dir):
-    base = global_criteria({"active_only": not include_inactive})
-    specs = []
-    for name in po_names:
-        first, last = parse_person_name(name)
-        po = {"first_name": first, "last_name": last}
-        specs.append(QuerySpec(f"po_{slugify(f'{last} {first}')}", "program_officer",
-                               f"{first} {last}".strip(), name, "", {**base, "po_names": [po]}))
-    for opp in opps:
-        specs.append(QuerySpec(f"opp_{slugify(opp)}", "opportunity", opp.upper(), opp.upper(), "",
-                               {**base, "foa": [opp.upper()]}))
-    for text in texts:
-        specs.append(QuerySpec(f"txt_{slugify(text)}", "text", text, text, "",
-                               {**base, "advanced_text_search": {
-                                   "operator": "and", "search_field": "projecttitle,terms,abstracttext",
-                                   "search_text": text}}))
+def search(po_names, po_files, opps, texts, include_inactive, out_dir):
+    rows: dict[str, list[dict[str, str]]] = {
+        "program_officers": [{"name": n} for n in po_names],
+        "opportunities": [{"opportunity_number": o} for o in opps],
+        "text_searches": [{"search_text": t} for t in texts],
+    }
+    for f in po_files:
+        rows["program_officers"] += read_table(f)
+    specs = build_queries_from_rows(rows, {"active_only": not include_inactive}, allow_empty=True)
     if not specs:
-        raise click.UsageError("Give at least one --po, --opportunity or --text")
+        raise click.UsageError("Give at least one --po, --po-file, --opportunity or --text")
+    click.echo(f"{len(specs)} search(es): " + ", ".join(s.value for s in specs))
     out = Path(out_dir)
     raws = []
     for spec in specs:
@@ -118,6 +118,41 @@ def search(po_names, opps, texts, include_inactive, out_dir):
     write_reports(out / "database", out / "reports")
     click.echo(f"Done: {manifest['n_grants_total']} grants in {len(grant_files)} file(s) under "
                f"{out / 'grants'}. Database: {out / 'database'}, reports: {out / 'reports'}")
+
+
+@main.command("matchmaker", help="Send your Specific Aims (a text file) to RePORTER Matchmaker, rank the "
+                                 "program officers by matched projects and select those above a cutoff. "
+                                 "Writes program_officers.tsv (selected) + selection.md to --out-dir.")
+@click.argument("aims_file", type=click.Path(exists=True, dir_okay=False))
+@click.option("--method", type=click.Choice(["knee", "above_median", "min_projects", "top_n", "coverage"]),
+              default="knee", show_default=True, help="How to choose the cutoff.")
+@click.option("--value", type=float, help="N for min_projects / top_n, fraction for coverage (e.g. 0.5).")
+@click.option("--min-projects", type=int, default=2, show_default=True,
+              help="Floor for every method (2 drops officers with a single matching project).")
+@click.option("--max-officers", type=int, help="Optional hard cap on selected officers.")
+@click.option("--include-inactive", is_flag=True, help="Match against all projects, not only active ones.")
+@click.option("--count-source", type=click.Choice(["current", "matchmaker"]), default="current", show_default=True,
+              help="current: credit each similar grant to its PO in the RePORTER API now; "
+                   "matchmaker: use the website's counts (can be out of date).")
+@click.option("--group", default="", help="Group label to give the selected officers.")
+@click.option("--out-dir", default="results_matchmaker", show_default=True)
+def matchmaker_cmd(aims_file, method, value, min_projects, max_officers, include_inactive, count_source,
+                   group, out_dir):
+    from .matchmaker import run_matchmaker
+
+    stats = run_matchmaker(Path(aims_file).read_text(encoding="utf-8"), out_dir,
+                           active_only=not include_inactive, method=method, value=value,
+                           min_projects=min_projects, max_officers=max_officers, group=group,
+                           count_source=count_source)
+    out = Path(out_dir)
+    click.echo(f"{stats['n_officers']} officers; selected {stats['n_selected']} with >= "
+               f"{stats['threshold']} matched grants ({stats['reason']}).")
+    if stats["stale_matchmaker_officers"]:
+        click.echo(f"{len(stats['stale_matchmaker_officers'])} officers Matchmaker credits manage none of the "
+                   "similar grants today (ended or reassigned) - see selection.md.")
+    click.echo(f"Review {out / 'selection.md'}; selected list: {out / 'program_officers.tsv'}")
+    click.echo(f"Next: nih-reporter search --po-file {out / 'program_officers.tsv'}   "
+               f"(or list that file under inputs.program_officers in a config)")
 
 
 @main.command("summarize", help="Summarise one grant file (grants/*.json) with a local Ollama model.")
@@ -155,7 +190,11 @@ def summarize_cmd(grant_file, config_yaml, model, host, port, num_ctx, out_dir):
 @click.argument("config_yaml", type=click.Path(exists=True, dir_okay=False))
 def list_queries(config_yaml):
     cfg = yaml.safe_load(Path(config_yaml).read_text())
-    specs = build_queries(cfg["inputs"], cfg.get("filters"))
+    mm = cfg.get("matchmaker") or {}
+    specs = build_queries(cfg.get("inputs"), cfg.get("filters"), allow_empty=bool(mm.get("enabled")))
+    if mm.get("enabled"):
+        click.echo(f"# + program officers selected by Matchmaker from {mm.get('aims_file')} "
+                   f"(added at run time; preview with: nih-reporter matchmaker {mm.get('aims_file')})")
     for q in specs:
         click.echo(f"{q.query_id}\t{q.query_type}\t{q.value}\t{q.criteria}")
     for gid, qids in groups_of(specs).items():

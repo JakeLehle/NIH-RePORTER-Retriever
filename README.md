@@ -8,15 +8,15 @@ addressed, the approaches used, patterns, and where new work could fit.
 
 ## Intended workflow
 
-1. Paste your Specific Aims into [RePORTER Matchmaker](https://reporter.nih.gov/matchmaker)
-   and note the program officers who manage the most similar funded projects.
-2. List those POs in `program_officers.tsv`.
-3. Run the pipeline. For each PO you get:
-   - `results/grants/po_<name>.json` – every active grant in their portfolio, with all
-     details and full abstracts (pure retrieval, no AI);
-   - `results/summaries/po_<name>.md` – a local-LLM landscape summary: overview,
-     research themes, the questions and approaches, patterns, and gaps / opportunities,
-     with every claim citing grant numbers.
+1. Give the pipeline your **Specific Aims text**. It sends it to
+   [RePORTER Matchmaker](https://reporter.nih.gov/matchmaker), finds the program officers
+   who manage the most similar *currently funded* grants, and keeps the ones above a
+   cutoff (most officers manage only one similar grant, so they are dropped).
+   You can also skip this and list the officers yourself.
+2. For each selected officer it pulls every active grant in their portfolio:
+   `results/grants/po_<name>.json` – all details and full abstracts (pure retrieval, no AI).
+3. A local LLM writes `results/summaries/po_<name>.md`: overview, research themes, the
+   questions and approaches, patterns, and gaps / opportunities, citing grant numbers.
 4. Use the summaries to sharpen your aims and decide whom to contact.
 
 The same works for a funding opportunity (RFA/PAR) or a consortium (its RFAs plus a
@@ -24,6 +24,7 @@ text search for its name, rolled up into one combined portfolio).
 
 | Phase | What it does | Needs |
 |---|---|---|
+| 0. Matchmaker (optional) | Aims text → similar grants → their current officers → ranked → cutoff → `matchmaker/program_officers.tsv` | Internet access to `reporter.nih.gov` |
 | 1. Retrieve | Input tables → RePORTER searches → complete grant records → one JSON grant file per search term (+ per group) → checked, listed in `grants/manifest.json` | Internet access to `api.reporter.nih.gov` |
 | 2. Summarise | `manifest.json` + each grant file → local LLM → `summaries/*.md` / `*.json` | [Ollama](https://ollama.com) running locally with a model pulled |
 
@@ -41,35 +42,115 @@ ollama serve                             # if not already running as a service
 ## Quick start
 
 ```bash
-nih-reporter create-config my_project/          # starter config + input tables
-# edit my_project/program_officers.tsv (and/or the other tables)
-nih-reporter list-queries my_project/config.yaml   # preview searches, no API calls
+nih-reporter create-config my_project/        # starter config + input tables + aims template
+nih-reporter list-queries my_project/config.yaml   # preview the searches, no API calls
 
-nih-reporter run my_project/config.yaml                    # Phase 1 + Phase 2
-nih-reporter run my_project/config.yaml --retrieve-only    # Phase 1 only (no LLM)
-nih-reporter run my_project/config.yaml --refresh          # re-pull from the API
-
-# One-off lookups without editing tables
-nih-reporter search --po "Pazin, Michael J" --out-dir results_quick
-nih-reporter summarize results_quick/grants/po_pazin_michael.json --model llama3.1:8b
+nih-reporter run my_project/config.yaml                    # everything
+nih-reporter run my_project/config.yaml --retrieve-only    # no LLM step
+nih-reporter run my_project/config.yaml --refresh          # re-query Matchmaker + the API
 ```
 
 `nih-reporter run` is a thin wrapper around
-`snakemake -s workflow/Snakefile --configfile <config> --cores 1 --resources ollama=1 [retrieve]`.
+`snakemake -s workflow/Snakefile --configfile <config> --cores 1 --resources ollama=1 [retrieve]`;
+anything after the config path that it doesn't recognise is passed to snakemake.
 
-## Inputs
+## Feeding in program officers
 
-Any combination of three tables (TSV or CSV, `#` lines are comments). Each may have
-optional `label` and `group` columns. Duplicate rows (e.g. the same PO listed twice)
-are dropped.
+There are four ways in, from quickest to most automated. All of them produce the same
+outputs, and program officers are always searched by **first + last name**, active
+grants only unless you say otherwise.
 
-**`program_officers.tsv`** – either `first_name` + `last_name` columns, or one `name`
-column in either "First M Last" or "Last, First M" form (as RePORTER displays them):
+### 1. One officer, no config
+
+```bash
+nih-reporter search --po "Pazin, Michael J"
 ```
-name
-Pazin, Michael J
-Lisa Chadwick
+Writes `results_search/grants/po_pazin_michael.json` (+ manifest, database, reports).
+Names can be "Last, First M" (as RePORTER/Matchmaker show them) or "First M Last";
+the middle name is ignored. Add `--include-inactive` for all years.
+
+### 2. A few officers typed out, no config
+
+```bash
+nih-reporter search --po "Pazin, Michael J" --po "Lisa Chadwick" --po "Gilchrist, Daniel A"
 ```
+One grant file per officer. `--opportunity RFA-HG-20-043` and `--text IGVF` can be mixed in.
+Duplicates (the same person written two ways) are searched once.
+
+### 3. A file of officers
+
+Either one-off:
+```bash
+nih-reporter search --po-file my_officers.tsv
+```
+or as part of a project (`inputs.program_officers` in `config.yaml`, which can also be
+a list of files). The file is TSV or CSV (by extension), `#` lines are comments, and it
+needs **either** a `name` column **or** `first_name` + `last_name` columns. Optional
+`label` and `group` columns; any other columns are ignored, so you can keep notes.
+```
+name	group
+Pazin, Michael J	functional genomics
+Lisa Chadwick	functional genomics
+Daniel A Gilchrist
+```
+
+### 4. From your Specific Aims via Matchmaker
+
+Matchmaker has no download button, so the pipeline asks it directly. Preview first:
+
+```bash
+nih-reporter matchmaker my_aims.txt                    # default: knee cutoff
+nih-reporter matchmaker my_aims.txt --method above_median
+nih-reporter matchmaker my_aims.txt --method top_n --value 10
+```
+
+This writes to `results_matchmaker/`:
+- `selection.md` – the count distribution, where the cutoff fell, and a ranked table:
+  **check this first**;
+- `program_officers.tsv` – the selected officers, ready to use as input (route 3);
+- `program_officers_all.tsv` – every officer with both counts and the grants matched;
+- `similar_projects.tsv` – Matchmaker's 500 similar projects and their current officers.
+
+To make it part of a project run, set in `config.yaml`:
+```yaml
+matchmaker:
+  enabled: true
+  aims_file: my_aims.txt
+  selection: {method: knee, min_projects: 2, max_officers: null}
+```
+The selected officers are then added to any `program_officers` table and the rest of the
+pipeline runs over all of them (a Snakemake checkpoint). Changing the aims file or the
+selection settings reruns Matchmaker; officers already pulled are not pulled again.
+
+**How officers are counted.** Matchmaker returns the ~500 projects most similar to your
+text. Its own per-officer counts include grants that have **already ended** (its
+"active" filter is not applied to that list) and officers who no longer hold those
+grants. So by default (`count_source: current`) each similar project is looked up in
+the official API and credited to the program officer on its current record; ended
+grants are not counted. In a test with a functional-genomics aims paragraph, 239 of
+the 500 similar projects were active, managed by 111 officers, 73 of whom had a single
+one; Matchmaker credited 32 officers with 2+ projects who held none of them as active
+grants. Use `count_source: matchmaker` to reproduce the website's numbers.
+
+**Choosing the cutoff** (`selection.method`). `min_projects` (default 2) is a floor for
+every method, `max_officers` an optional cap, and officers tied at the cutoff are kept
+together. With the test above (111 officers):
+
+| Method | Keeps | Result in the test |
+|---|---|---|
+| `knee` (default) | officers above the elbow of the ranked counts | ≥ 3 grants → 18 officers (48% of matched grants) |
+| `above_median` | more matched grants than the median | ≥ 2 → 38 |
+| `min_projects` + `value: N` | at least N | N = 5 → 9 |
+| `top_n` + `value: N` | the N highest-ranked (ties kept) | N = 10 → 10 |
+| `coverage` + `value: 0.5` | fewest top officers covering that share of matched grants | → 38 |
+
+**Caveats.** Matchmaker is not part of the documented RePORTER API; the pipeline calls
+the same service the website uses (2 requests per run, plus ~5 to the official API).
+It accepts up to 15,000 characters. If NIH changes it or it asks for a captcha, the
+step stops with a message and you can fall back to route 3. Officer matching is by
+first + last name, so two officers sharing both would be merged.
+
+## Other inputs
 
 **`opportunities.tsv`** – RFA / PAR / PA numbers
 ```
@@ -87,7 +168,8 @@ IGVF	IGVF (text match)	IGVF
 
 Searches that share a `group` (2 or more) are also merged into a combined portfolio,
 `grants/group_<name>.json`, which gets its own summary — use this for "everything
-currently funded by consortium X".
+currently funded by consortium X", or give Matchmaker-selected officers a `group` to get
+one combined portfolio of all of them.
 
 ## Key settings (`config.yaml`)
 
@@ -121,6 +203,7 @@ files says whether it came from the search or this lookup (`found_by`).
 
 ```
 results/
+├── matchmaker/                   selection.md, program_officers(_all).tsv, similar_projects.tsv
 ├── grants/
 │   ├── {search}.json             one file per search term: every grant, all fields
 │   ├── group_{group}.json        combined portfolio per group (e.g. consortium)
@@ -201,7 +284,7 @@ large-context models.
 
 ```
 config/                 example config.yaml + input tables
-workflow/Snakefile      query_spec → fetch_query → grant_file / group_grant_file
+workflow/Snakefile      [matchmaker checkpoint] → query_spec → fetch_query → grant_file / group_grant_file
                         → check_grant_files → summarize_portfolio
                         (+ flatten_query, build_database, reports)
 workflow/prompts/       LLM prompt templates
@@ -213,6 +296,7 @@ nih_reporter/
   llm.py                Ollama client
   summarize.py          per-grant digests + portfolio synthesis
   database.py, reports.py   TSV / SQLite database, PO summary, Markdown reports
+  matchmaker.py         Matchmaker query, current-officer counts, cutoff selection
   cli.py                nih-reporter command
-tests/                  offline tests (fake RePORTER responses + fake Ollama server)
+tests/                  offline tests (fake RePORTER / Matchmaker responses + fake Ollama server)
 ```

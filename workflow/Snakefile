@@ -1,5 +1,10 @@
 """NIH RePORTER Retriever - Snakemake workflow.
 
+Optional step 0 - Matchmaker (if matchmaker.enabled):
+    your Specific Aims text -> RePORTER Matchmaker -> program officers ranked by
+    how many similar projects they manage -> keep those above a cutoff
+    -> matchmaker/program_officers.tsv (added to any program_officers table)
+
 Phase 1 - retrieval only (no AI):
     input tables -> RePORTER searches (+ full record lookup per grant) -> raw JSON
       -> grants/{portfolio}.json   one readable grant file per search term, plus one
@@ -11,8 +16,9 @@ Phase 2 - summarisation with a local LLM (Ollama), if summarize.enabled:
     grants/manifest.json + grants/{portfolio}.json -> summaries/{portfolio}.md / .json
 
 Run from the repository root:
-    snakemake -s workflow/Snakefile --configfile config/config.yaml --cores 1
-    snakemake -s workflow/Snakefile --configfile config/config.yaml --cores 1 retrieve   # Phase 1 only
+    snakemake -s workflow/Snakefile --configfile config/config.yaml --cores 1 --resources ollama=1
+    ... retrieve      # Phase 1 only (plus Matchmaker if enabled)
+    ... matchmaker    # just the Matchmaker step, to check the officer cutoff
 """
 
 import json
@@ -23,8 +29,8 @@ from pathlib import Path
 REPO_ROOT = Path(workflow.basedir).parent
 sys.path.insert(0, str(REPO_ROOT))
 
-from nih_reporter.queries import build_queries, groups_of
-from nih_reporter import pipeline, database, reports, landscape, summarize
+from nih_reporter.queries import QuerySpec, build_queries, groups_of
+from nih_reporter import pipeline, database, reports, landscape, summarize, matchmaker
 
 _pkg_log = logging.getLogger("nih_reporter")
 _pkg_log.setLevel(logging.INFO)
@@ -39,17 +45,59 @@ if not config:
 
 OUT = Path(config.get("output_dir", "results"))
 API_CFG = config.get("api", {})
+INPUTS = config.get("inputs") or {}
+FILTERS = config.get("filters") or {}
 
-# Input table paths in the config are resolved relative to the working directory.
-QUERIES = {q.query_id: q for q in build_queries(config["inputs"], config.get("filters"), base_dir=".")}
-QIDS = sorted(QUERIES)
-# Groups (e.g. a consortium's RFAs + its name search) get a combined portfolio too.
-GROUPS = groups_of(QUERIES.values())
-GROUP_NAMES = {gid: QUERIES[qids[0]].group for gid, qids in GROUPS.items()}
-PORTFOLIOS = QIDS + sorted(GROUPS)
+MM_CFG = config.get("matchmaker") or {}
+MATCHMAKER = bool(MM_CFG.get("enabled", False))
+MM_DIR = OUT / "matchmaker"
 
 SUMMARIZE_CFG = config.get("summarize") or {}
 SUMMARIZE = bool(SUMMARIZE_CFG.get("enabled", False))
+
+# Searches from the input tables are known now; with Matchmaker on, the selected
+# officers are added once the matchmaker checkpoint has run.
+TABLE_SPECS = build_queries(INPUTS, FILTERS, base_dir=".", allow_empty=MATCHMAKER)
+
+
+def all_specs(via_checkpoint=True):
+    """All searches: input tables + (with Matchmaker on) the selected officers.
+
+    Input functions go through the checkpoint (via_checkpoint=True), which makes
+    Snakemake run Matchmaker first and re-plan afterwards. Params functions may
+    not touch a checkpoint they don't list as input, so they read the selected
+    table directly - it always exists by the time those jobs are scheduled.
+    """
+    if not MATCHMAKER:
+        return TABLE_SPECS
+    if via_checkpoint:
+        selected = checkpoints.matchmaker.get().output.officers
+    else:
+        selected = MM_DIR / "program_officers.tsv"
+    inputs = dict(INPUTS)
+    po = inputs.get("program_officers") or []
+    inputs["program_officers"] = ([po] if isinstance(po, str) else list(po)) + [selected]
+    specs = build_queries(inputs, FILTERS, base_dir=".", allow_empty=True)
+    if not specs:
+        raise ValueError(f"No searches: Matchmaker selected no officers ({selected}) "
+                         "and the input tables are empty.")
+    return specs
+
+
+def queries(via_checkpoint=True):
+    return {q.query_id: q for q in all_specs(via_checkpoint)}
+
+
+def qids(via_checkpoint=True):
+    return sorted(queries(via_checkpoint))
+
+
+def groups(via_checkpoint=True):
+    return groups_of(all_specs(via_checkpoint))
+
+
+def portfolios(via_checkpoint=True):
+    return qids(via_checkpoint) + sorted(groups(via_checkpoint))
 
 
 def log_to(path):
@@ -73,31 +121,62 @@ wildcard_constraints:
 
 
 GRANT_MANIFEST = OUT / "grants" / "manifest.json"
-SUMMARIES = expand(OUT / "summaries" / "{pid}.md", pid=PORTFOLIOS)
 
 
-# Phase 1 outputs: everything that needs nothing but the RePORTER API.
-PHASE1 = [
-    GRANT_MANIFEST,
-    OUT / "database" / "portfolio.tsv",
-    OUT / "database" / "portfolio.jsonl",
-    OUT / "database" / "nih_reporter.sqlite",
-    OUT / "reports" / "program_officer_summary.tsv",
-    *expand(OUT / "reports" / "portfolios" / "{qid}.md", qid=QIDS),
-    *expand(OUT / "tables" / "{qid}.tsv", qid=QIDS),
-]
+def phase1(wildcards=None):
+    return [
+        GRANT_MANIFEST,
+        OUT / "database" / "portfolio.tsv",
+        OUT / "database" / "portfolio.jsonl",
+        OUT / "database" / "nih_reporter.sqlite",
+        OUT / "reports" / "program_officer_summary.tsv",
+        *expand(OUT / "tables" / "{qid}.tsv", qid=qids()),
+    ]
+
+
+def summaries(wildcards=None):
+    return expand(OUT / "summaries" / "{pid}.md", pid=portfolios()) if SUMMARIZE else []
 
 
 rule all:
     input:
-        PHASE1,
-        SUMMARIES if SUMMARIZE else [],
+        phase1,
+        summaries,
 
 
 # Phase 1 only (no LLM):  snakemake ... retrieve
 rule retrieve:
     input:
-        PHASE1,
+        phase1,
+
+
+# Step 0: Specific Aims text -> Matchmaker -> selected program officers.
+# Reruns when the aims file or the matchmaker settings change.
+# To re-query Matchmaker with unchanged text: --forcerun matchmaker
+checkpoint matchmaker:
+    input:
+        aims=MM_CFG.get("aims_file") or "MATCHMAKER_AIMS_FILE_NOT_SET",
+    output:
+        officers=MM_DIR / "program_officers.tsv",
+        ranked=MM_DIR / "program_officers_all.tsv",
+        report=MM_DIR / "selection.md",
+        raw=MM_DIR / "matchmaker.json",
+    params:
+        cfg=json.dumps(MM_CFG, sort_keys=True),
+    log:
+        OUT / "logs" / "matchmaker.log",
+    run:
+        h = log_to(log[0])
+        try:
+            sel = MM_CFG.get("selection") or {}
+            matchmaker.run_matchmaker(
+                Path(input.aims).read_text(encoding="utf-8"), MM_DIR,
+                active_only=MM_CFG.get("active_only", FILTERS.get("active_only", True)),
+                method=sel.get("method", "knee"), value=sel.get("value"),
+                min_projects=int(sel.get("min_projects", 2)), max_officers=sel.get("max_officers"),
+                group=MM_CFG.get("group") or "", count_source=sel.get("count_source", "current"))
+        finally:
+            release(h)
 
 
 # One small JSON spec per query. Because the spec is passed as a param, the rule
@@ -107,9 +186,9 @@ rule query_spec:
     output:
         OUT / "queries" / "{qid}.json",
     params:
-        spec=lambda wc: json.dumps(QUERIES[wc.qid].to_dict(), sort_keys=True),
+        spec=lambda wc: json.dumps(queries(False)[wc.qid].to_dict(), sort_keys=True),
     run:
-        pipeline.write_spec(QUERIES[wildcards.qid], output[0])
+        pipeline.write_spec(QuerySpec.from_dict(json.loads(params.spec)), output[0])
 
 
 # Hits the API. Requests are throttled process-wide (~1/s, per NIH guidance),
@@ -142,7 +221,7 @@ rule flatten_query:
 
 rule build_database:
     input:
-        expand(OUT / "raw" / "{qid}.json", qid=QIDS),
+        lambda wc: expand(OUT / "raw" / "{qid}.json", qid=qids()),
     output:
         OUT / "database" / "queries.tsv",
         OUT / "database" / "records.tsv",
@@ -166,7 +245,7 @@ rule reports:
         OUT / "database" / "queries.tsv",
     output:
         OUT / "reports" / "program_officer_summary.tsv",
-        expand(OUT / "reports" / "portfolios" / "{qid}.md", qid=QIDS),
+        directory(OUT / "reports" / "portfolios"),
     run:
         reports.write_reports(OUT / "database", OUT / "reports")
 
@@ -185,11 +264,13 @@ rule grant_file:
 # Combined grant file for each group of 2+ searches (e.g. a consortium).
 rule group_grant_file:
     input:
-        lambda wc: expand(OUT / "raw" / "{qid}.json", qid=GROUPS[wc.gid]),
+        lambda wc: expand(OUT / "raw" / "{qid}.json", qid=groups()[wc.gid]),
     output:
         OUT / "grants" / "{gid}.json",
+    params:
+        group=lambda wc: queries(False)[groups(False)[wc.gid][0]].group,
     run:
-        landscape.build_grant_file(list(input), output[0], group=GROUP_NAMES[wildcards.gid])
+        landscape.build_grant_file(list(input), output[0], group=params.group)
 
 
 # Checks every grant file exists, parses, is internally consistent and matches
@@ -197,19 +278,22 @@ rule group_grant_file:
 # fails with the list of problems. Phase 2 rules take the manifest as input.
 rule check_grant_files:
     input:
-        grants=expand(OUT / "grants" / "{pid}.json", pid=PORTFOLIOS),
-        raw=expand(OUT / "raw" / "{qid}.json", qid=QIDS),
+        grants=lambda wc: expand(OUT / "grants" / "{pid}.json", pid=portfolios()),
+        raw=lambda wc: expand(OUT / "raw" / "{qid}.json", qid=qids()),
     output:
         GRANT_MANIFEST,
+    params:
+        raw_lists=lambda wc: json.dumps([
+            [str(OUT / "raw" / f"{q}.json") for q in groups(False)[p]] if p in groups(False)
+            else str(OUT / "raw" / f"{p}.json")
+            for p in portfolios(False)
+        ]),
     log:
         OUT / "logs" / "check_grant_files.log",
     run:
         h = log_to(log[0])
         try:
-            raw_for = {q: str(OUT / "raw" / f"{q}.json") for q in QIDS}
-            raw_lists = [[raw_for[q] for q in GROUPS[p]] if p in GROUPS else raw_for[p]
-                         for p in PORTFOLIOS]
-            m = landscape.check_grant_files(input.grants, raw_lists, output[0])
+            m = landscape.check_grant_files(input.grants, json.loads(params.raw_lists), output[0])
             for f in m["files"]:
                 for w in f["warnings"]:
                     logging.getLogger("nih_reporter.check").warning(w)

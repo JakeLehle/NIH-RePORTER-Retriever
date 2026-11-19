@@ -7,12 +7,38 @@
 # Where everything is written.
 output_dir: results
 
-# Input tables (TSV or CSV). Comment out / delete any you don't need, but keep
-# at least one. Paths are relative to the directory you run snakemake from.
+# Input tables (TSV or CSV). Comment out / delete any you don't need. Each entry
+# may be one file or a list of files. Paths are relative to the directory you
+# run from. With matchmaker.enabled, the tables are optional.
 inputs:
   program_officers: config/program_officers.tsv   # first_name + last_name, or name ("Pazin, Michael J")
   opportunities: config/opportunities.tsv         # opportunity_number [, label, group]
   text_searches: config/text_searches.tsv         # search_text [, search_field, operator, label, group]
+
+# Optional: find program officers automatically from your Specific Aims text
+# with RePORTER Matchmaker, keep the ones managing the most similar projects,
+# and add them to the program officer searches. See matchmaker/selection.md in
+# the output to check the cutoff. Preview without the full pipeline:
+#   nih-reporter matchmaker config/specific_aims.txt
+matchmaker:
+  enabled: false
+  aims_file: config/specific_aims.txt   # plain text, up to 15,000 characters
+  active_only: true                     # match against currently funded projects only
+  group: ""                             # optional group label for the selected POs
+  selection:
+    # current    - credit each similar grant to the PO on its newest RePORTER record (default;
+    #              Matchmaker's own PO counts can be out of date after portfolio reassignments)
+    # matchmaker - use the counts shown on the Matchmaker website
+    count_source: current
+    # knee         - officers above the "elbow" of the ranked counts (default)
+    # above_median - officers with more matched projects than the median
+    # min_projects - officers with >= value matched projects
+    # top_n        - the value top-ranked officers (ties kept)
+    # coverage     - fewest top officers covering >= value (e.g. 0.5) of matched projects
+    method: knee
+    value: null
+    min_projects: 2        # floor for every method: drops officers with a single match
+    max_officers: null     # optional hard cap
 
 # Filters applied to EVERY search.
 filters:
